@@ -1,9 +1,9 @@
-/.vs
+.vs/
 /Build
 /External Libraries
 /RTLibrary
 /RTMain
 /RTPluginPS2
 /RTPluginSimulator
-/bin
-/obj
+bin/
+obj/

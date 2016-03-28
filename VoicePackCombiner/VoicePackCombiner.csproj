@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VoicePackExtended.cs" />
-    <Compile Include="DebugForm.cs">
+    <Compile Include="VoicePack\VoicePackExtended.cs" />
+    <Compile Include="GUI\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DebugForm.Designer.cs">
+    <Compile Include="GUI\DebugForm.Designer.cs">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Annotations.cs" />
@@ -55,25 +55,25 @@
     <Compile Include="VoicePackCombiner.Designer.cs">
       <DependentUpon>VoicePackCombiner.cs</DependentUpon>
     </Compile>
-    <Compile Include="VoicePackCombinerForm.cs">
+    <Compile Include="GUI\VoicePackCombinerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="VoicePackCombinerForm.Designer.cs">
+    <Compile Include="GUI\VoicePackCombinerForm.Designer.cs">
       <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="VoicePackCombinerMenuItems.cs" />
+    <Compile Include="GUI\VoicePackCombinerMenuItems.cs" />
     <Compile Include="VoicePackCombinerPlugin.cs" />
-    <Compile Include="VoicePackComparer.cs" />
+    <Compile Include="VoicePack\VoicePackComparer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DebugForm.resx">
+    <EmbeddedResource Include="GUI\DebugForm.resx">
       <DependentUpon>DebugForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="VoicePackCombinerForm.resx">
+    <EmbeddedResource Include="GUI\VoicePackCombinerForm.resx">
       <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
