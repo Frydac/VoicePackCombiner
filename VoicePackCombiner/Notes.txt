@@ -1,0 +1,35 @@
+﻿- Tests terug laten werken
+
+IsGlobal() gebruiken en functies proberen te testen die het gebruiken
+
+- split equals in sounds/componentinfo
+-	implement componentInfoEquals()
+
+start merge met default soundpack
+
+extract equals functions to VoicePackComparer
+
+merge info
+        /// TODO: fill in values properly
+        /// always pakfile, always CombinedVoicePackBackupFilename
+        /// ComponentInformation:
+        ///  name: Combination of: Name1, Name2, ...
+        ///  description:
+        ///    name: Name1
+        ///    description: description1
+        ///    ...
+        /// author: Combined effort from Name1, Name2, ...
+        /// SampleImage, backupSampleImage: ?? dunno yet, default I presume for now
+
+Merge() Catch Exception and return boolean, or not return anything and catch exception higher in the callstack
+
+Extract VoicePackCombiner
+
+merge in eigen klasse refactoren
+na merge bestand opslaan in backup plaats
+
+fix error where data is kept when new voicepack is created via main gui
+
+
+My plugin is dependant on PS2Plugin being loaded properly, maybe should build check?
+
