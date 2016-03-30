@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Tests
+namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
 {
     /// <summary>
     /// TestData on hard drive

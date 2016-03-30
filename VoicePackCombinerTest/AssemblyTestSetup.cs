@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Tests
+namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
 {
     /// <summary>
     /// Things to initialize once before any of the tests run

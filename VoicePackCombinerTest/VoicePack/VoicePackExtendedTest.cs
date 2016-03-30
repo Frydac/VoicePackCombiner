@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RecursionTracker.Plugins.PlanetSide2;
 using RecursionTracker.Plugins.VoicePackCombiner;
-using RecursionTracker.Plugins.VoicePackCombiner.Tests;
+using RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest;
 using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
 
 namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack

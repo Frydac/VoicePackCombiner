@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Tests
+namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
 {
     [TestClass()]
     public class VoicePackCombinerTest
