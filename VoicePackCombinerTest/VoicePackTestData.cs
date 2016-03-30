@@ -5,9 +5,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.Tests
     /// <summary>
     /// TestData on hard drive
     /// </summary>
+    /// <remarks>paths are relative to .cjproj</remarks>
     static class TestData
     {
-        public static readonly string TestDataFolder = @"../../../TestData/";
+        public static readonly string TestDataFolder = @"../../../../TestData/";
         public static readonly string Pack1 = Path.Combine(TestDataFolder, "_emile_test_1.rtst_vpk");
         public static readonly string Pack2 = Path.Combine(TestDataFolder, "_emile_test_2.rtst_vpk");
         public static readonly string Pack1Republished = Path.Combine(TestDataFolder, "_emile_test_1_republish.rtst_vpk");
@@ -21,7 +22,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.Tests
         /// These depend on files from the build folder used by RTLibrary, which should be in the same folder
         /// as VoicePackCombiner project folder, and also depends on RTPluginPS2 being installed in that build
         /// Folder as a Mod.
-        public static readonly string buildFolder = @"..\..\..\Build";
+        public static readonly string buildFolder = @"..\..\..\..\Build";
         public static readonly string achievementSettings = Path.Combine(buildFolder, @"Settings\AchievementSettings.xml");
         public static readonly string achievementsPAKFile = Path.Combine(buildFolder, @"Mods\3\Components\RecursionAchievements.rtst_pak");
 

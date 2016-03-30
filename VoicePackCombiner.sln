@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTPluginPS2", "RTPluginPS2\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTPluginSimulator", "RTPluginSimulator\RTPluginSimulator.csproj", "{8DFF0D4D-7E5A-4E6A-9B7B-08E9B2BA9856}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicePackCombinerTest", "VoicePackCombinerTest\VoicePackCombinerTest.csproj", "{64E81573-A513-4EEA-A448-94743E0EC83C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicePackCombinerTest", "VoicePackCombinerTest\VS2015\VoicePackCombinerTest.csproj", "{64E81573-A513-4EEA-A448-94743E0EC83C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A2276DC-DFB4-435B-9AEF-FBCF921B76AC}"
 	ProjectSection(SolutionItems) = preProject
