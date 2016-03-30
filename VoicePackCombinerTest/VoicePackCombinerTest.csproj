@@ -6,7 +6,7 @@
     <ProjectGuid>{64E81573-A513-4EEA-A448-94743E0EC83C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VoicePackCombinerTest</RootNamespace>
+    <RootNamespace>RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest</RootNamespace>
     <AssemblyName>VoicePackCombinerTest</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -57,9 +57,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="VoicePackExtendedTest.cs" />
+    <Compile Include="AssemblyTestSetup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VoicePackCombinerTests.cs" />
+    <Compile Include="VoicePackCombinerTest.cs" />
+    <Compile Include="VoicePackTestData.cs" />
+    <Compile Include="VoicePack\VoicePackComparerTest.cs" />
+    <Compile Include="VoicePack\VoicePackExtendedTest.cs" />
+    <Compile Include="VoicePack\VoicePackMergerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RTLibrary\RTLibrary.csproj">

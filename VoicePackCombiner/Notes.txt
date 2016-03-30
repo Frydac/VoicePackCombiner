@@ -5,6 +5,8 @@ IsGlobal() gebruiken en functies proberen te testen die het gebruiken
 - split equals in sounds/componentinfo
 -	implement componentInfoEquals()
 
+- make sure my menu items dont disappear :) doesnt do it anymore.. dont know how this came to be
+
 start merge met default soundpack
 
 extract equals functions to VoicePackComparer

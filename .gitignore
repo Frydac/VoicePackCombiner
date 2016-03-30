@@ -5,5 +5,6 @@
 /RTMain
 /RTPluginPS2
 /RTPluginSimulator
+/TestData
 bin/
 obj/

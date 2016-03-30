@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-
+using RecursionTracker.Plugins.VoicePackCombiner.GUI;
 #if DEBUG
 using System.IO;
 using System.Runtime.InteropServices;
@@ -45,18 +45,21 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         public override void OnMainFormLoad()
         {
             base.OnMainFormLoad();
+            Debug.WriteLine("OnMainFormLoad called");
 
-            ////Needs to be instantiated here, as it is disposed whenever main form closes
-            //VoicePackCombinerForm = new VoicePackCombinerForm(VoicePackCombiner);
-
-            string parentMenuItemName = "modsToolStripMenuItem";
-            _voicePackCombinerMenuItems = new VoicePackCombinerMenuItems(parentMenuItemName, 
-                VoicePackCombiner, VoicePackCombinerForm, m_core.GetMainForm());
+            CreateVoicePackCombinerMenuItemsInMainGui();
 #if DEBUG
             _debugHelpers.ShowDebugForm();
 #endif
         }
 
+        private void CreateVoicePackCombinerMenuItemsInMainGui()
+        {
+            string parentMenuItemName = "modsToolStripMenuItem";
+            _voicePackCombinerMenuItems = new VoicePackCombinerMenuItems(parentMenuItemName,
+                VoicePackCombiner, VoicePackCombinerForm, m_core.GetMainForm());
+            Debug.WriteLine("After inserting voicepackcombiner menu items");
+        }
     }
 
 #if DEBUG
@@ -86,11 +89,19 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         {
             _voicePackCombiner = voicePackCombiner;
             ShowCmdConsoleWindow();
+            SetDebugOutputToConsole();
         }
 
         private static void ShowCmdConsoleWindow()
         {
             AllocConsole();
+        }
+
+        /// <summary>
+        /// Calls to Debug.Write* will be printed in the console window
+        /// </summary>
+        private void SetDebugOutputToConsole()
+        {
             StreamWriter standardOutput = new StreamWriter(Console.OpenStandardOutput());
             standardOutput.AutoFlush = true;
             Console.SetOut(standardOutput);

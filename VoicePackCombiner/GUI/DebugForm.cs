@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner
+namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 {
     public partial class DebugForm : Form
     {
@@ -35,7 +29,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
 
         private void btnPrintCombinedVoicePack_Click(object sender, EventArgs e)
         {
-            this.txtBoxDebugInfo.AppendText(_voicePackCombiner.CombinedAchievementOptions.ToString());
+            this.txtBoxDebugInfo.AppendText(_voicePackCombiner.CombinedVoicePack.ToString());
         }
 
         private void btnPrintBackupVoicePack_Click(object sender, EventArgs e)

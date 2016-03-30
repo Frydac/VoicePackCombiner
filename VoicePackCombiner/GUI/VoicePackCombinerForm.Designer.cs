@@ -1,4 +1,4 @@
-﻿namespace RecursionTracker.Plugins.VoicePackCombiner
+﻿namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 {
     partial class VoicePackCombinerForm
     {

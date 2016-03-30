@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner
+namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 {
     /// <summary>
     /// Represents the Menu Item that is added to the main gui form in order for the user

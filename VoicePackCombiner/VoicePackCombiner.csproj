@@ -64,6 +64,7 @@
     <Compile Include="GUI\VoicePackCombinerMenuItems.cs" />
     <Compile Include="VoicePackCombinerPlugin.cs" />
     <Compile Include="VoicePack\VoicePackComparer.cs" />
+    <Compile Include="VoicePack\VoicePackMerger.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\DebugForm.resx">

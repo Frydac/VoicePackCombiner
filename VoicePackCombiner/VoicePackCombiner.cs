@@ -9,6 +9,7 @@ using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using RecursionTracker.Plugins.VoicePackCombiner.Properties.Annotations;
+using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
 
 namespace RecursionTracker.Plugins.VoicePackCombiner
 {
@@ -26,10 +27,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// <summary>
         /// Holds the merged combination of all the added voicepacks
         /// </summary>
-        public VoicePackExtended CombinedAchievementOptions { get; private set; }
+        public VoicePackExtended CombinedVoicePack { get; private set; }
 
         /// <summary>
-        /// Holds a copy of the GlobalVariablesPS2.achievementOptions, so it can be restored when needed
+        /// Holds a reference to the GlobalVariablesPS2.achievementOptions, so it can be restored when needed
         /// </summary>
         public VoicePackExtended OriginalAchievementsOptionsBackup { get; private set; }
 
@@ -41,6 +42,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// <summary>
         /// This property switches between using the combined voice pack and the original voice pack loaded in the main program
         /// Saves itself as a setting every call
+        /// It emits a UseCombinedVoicePack property changed event
         ///  </summary>
         public bool UseCombinedVoicePack
         {
@@ -48,13 +50,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
 
             set
             {
-                Debug.WriteLine("");
-                Debug.WriteLine("UseCombinedVoicePack called with value = " + value);
                 var useCombinedVoicePack = value;
                 if (useCombinedVoicePack)
                 {
-                    Debug.WriteLine("Use Combined Voicepack");
-                    if (!CombinedAchievementOptions.IsValidVoicePackLoaded())
+                    if (!CombinedVoicePack.IsValidVoicePackLoaded())
                     {
                         //Can't use non-existing voicepack so dont change value, 
                         //do send out changed event so ui element used to set this to true, knows the value isn't accepted and the gui element is unset again 
@@ -64,15 +63,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                     }
 
                     OriginalAchievementsOptionsBackup.GetFromGlobal();
-                    CombinedAchievementOptions.SetAsGlobal();
+                    CombinedVoicePack.SetAsGlobal();
                 }
                 else
                 {
-                    Debug.WriteLine("Revert to Original Voicepack");
                     //var globalAchievmentOptions = new VoicePackExtended();
                     //globalAchievmentOptions.GetFromGlobal();
-                    //if (globalAchievmentOptions.EqualSoundFilenames(CombinedAchievementOptions))
-                    if(CombinedAchievementOptions.IsGlobal())
+                    //if (globalAchievmentOptions.EqualSoundFilenames(CombinedVoicePack))
+                    if(CombinedVoicePack.IsGlobal())
                         //The voicepack in use is indeed our combined one, so revert to the backup voicepack
                         OriginalAchievementsOptionsBackup.SetAsGlobal();
                     else
@@ -80,7 +78,6 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                         //The voicepack in use is not the combined one, meaning the user has used the main program to load another voicepack
                         //while useCombinedVoicePack==true, so the backup will be out of date. We create a new backup to get back in sync.
                         OriginalAchievementsOptionsBackup.GetFromGlobal();
-                        Debug.WriteLine("Current loaded voicepack was not the combined voicepack, disabling useCombinedVoicepack will just create a new backup");
                     }
                 }
                 _useCombinedVoicePack = value;
@@ -90,17 +87,18 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             }
         }
 
+        private bool _useCombinedVoicePack = false;
+
         private void UpdateUseCombinedVoicePackSettingsFile()
         {
             Properties.VoicePackCombiner.Default.UseCombinedVoicePack = _useCombinedVoicePack;
             Properties.VoicePackCombiner.Default.Save();
         }
 
-        private bool _useCombinedVoicePack = false;
 
         public VoicePackCombiner(bool loadFromSettingFile = true)
         {
-            CombinedAchievementOptions = new VoicePackExtended();
+            CombinedVoicePack = new VoicePackExtended();
             OriginalAchievementsOptionsBackup = new VoicePackExtended();
             if(loadFromSettingFile) LoadFromUserSettings(); 
         }
@@ -122,7 +120,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
             if(Properties.VoicePackCombiner.Default.VoicePackFileList == null) return;
 
-            CombinedAchievementOptions = new VoicePackExtended();
+            CombinedVoicePack = new VoicePackExtended();
             AddVoicePacks(Properties.VoicePackCombiner.Default.VoicePackFileList.Cast<string>().ToList());
         }
 
@@ -150,9 +148,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                 bool loadSuccess = false;
 
                 if (!VoicePackFiles.Any())
-                    loadSuccess = CombinedAchievementOptions.LoadFromFile(filename);
+                    loadSuccess = CombinedVoicePack.LoadFromFile(filename);
                 else
-                    loadSuccess = CombinedAchievementOptions.Merge(filename);
+                    loadSuccess = CombinedVoicePack.Merge(filename);
 
                 if(loadSuccess)
                     VoicePackFiles.Add(new FileInfo(filename));
@@ -187,16 +185,16 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         {
             if (!VoicePackFiles.Any())
             {
-                CombinedAchievementOptions.VoicePack = null;
+                CombinedVoicePack.VoicePack = null;
                 return;
             }
 
-            CombinedAchievementOptions = new VoicePackExtended();
-            CombinedAchievementOptions.LoadFromFile(VoicePackFiles[0].FullName);
+            CombinedVoicePack = new VoicePackExtended();
+            CombinedVoicePack.LoadFromFile(VoicePackFiles[0].FullName);
             List<FileInfo> invalidFilesToRemove = new List<FileInfo>();
             foreach (var voicePackFile in VoicePackFiles.Skip(1))
             {
-                if(!CombinedAchievementOptions.Merge(voicePackFile.FullName))
+                if(!CombinedVoicePack.Merge(voicePackFile.FullName))
                     invalidFilesToRemove.Add(voicePackFile);
             }
 
@@ -217,14 +215,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             //This makes only sense when the combined voicepack is (supposed to be) in use
             if (!UseCombinedVoicePack) return false;
 
-            if (CombinedAchievementOptions.IsGlobal())
+            if (CombinedVoicePack.IsGlobal())
             {
-                Debug.WriteLine("Global VoicePack not changed");
+                //Debug.WriteLine("Global VoicePack not changed");
                 return false;
             }
             else
             {
-                Debug.WriteLine("Global VoicePack changed");
+                //Debug.WriteLine("Global VoicePack changed");
                 OriginalAchievementsOptionsBackup.GetFromGlobal();  
                 UseCombinedVoicePack = false;
                 return true;

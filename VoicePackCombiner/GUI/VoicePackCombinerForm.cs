@@ -1,22 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Forms;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner
+namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 {
     using GlobalVariablesPS2 = PlanetSide2.GlobalVariablesPS2;
     /// <summary>
@@ -104,11 +98,12 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
 
 
         /// <summary>
+        /// TODO: this should not be in this class!!!
         /// Event handler called by timer to check if the voicepack currently in use was changed (not by the plugin)
         /// </summary>
         void pollGlobalVoicePackChanged_timerElapsed(object sender, ElapsedEventArgs e)
         {
-            Debug.WriteLine("time elapsed, eventhandler called");
+            //Debug.WriteLine("time elapsed, eventhandler called");
             _voicePackCombiner.CheckGlobalVoicePackChanged();
         }
         
@@ -171,8 +166,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// <summary>
         /// Custom drawhandler for listbox, mainly to make item selection highlight slateGray
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <remarks>
+        /// Based on:
+        /// https://msdn.microsoft.com/en-us/library/system.windows.forms.drawitemstate.aspx
+        /// </remarks>
         void listBox_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
@@ -212,7 +209,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             if (saveFileDialog.ShowDialog() != DialogResult.OK) 
                 return;
 
-            _voicePackCombiner.CombinedAchievementOptions.ExportToFile(saveFileDialog.FileName);
+            _voicePackCombiner.CombinedVoicePack.ExportToFile(saveFileDialog.FileName);
         }
     }
 
