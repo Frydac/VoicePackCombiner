@@ -6,6 +6,11 @@ IsGlobal() gebruiken en functies proberen te testen die het gebruiken
 -	implement componentInfoEquals()
 
 - make sure my menu items dont disappear :) doesnt do it anymore.. dont know how this came to be
+- move equalcomponentinfo to voicepackcomparer and test (test exists but need to be rewritten)
+
+move equalfilenames to voicepack comparer and rewrite tests
+finish TestVoicePackMerger.MergeComponentInformation
+finish move of all merge functions to VoicePackMerger
 
 start merge met default soundpack
 
@@ -35,3 +40,8 @@ fix error where data is kept when new voicepack is created via main gui
 
 My plugin is dependant on PS2Plugin being loaded properly, maybe should build check?
 
+
+--------------
+Manual items:
+--------------
+It takes the sampleImage of the first voicePack added to the list, TODO: make option to choose sample Image, maybe rightclick context menu?

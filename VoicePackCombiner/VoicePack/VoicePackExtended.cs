@@ -6,28 +6,25 @@ using RecursionTracker.Plugins.PlanetSide2;
 
 namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
 {
-    //using GlobalVariablesPS2 = RecursionTracker.Plugins.PlanetSide2.GlobalVariablesPS2;
-    //Shorthand type alias
-    
-    //public class AchievementList : XmlDictionary<string, AchievementOptions>
-    //{
-
-    //}
-
-
     /// <summary>
-    /// This class represents an extension to AchievementOptionsComponents (which is the in memory representation of VoicePacks)
+    /// VoicePackExtended represents an extension to AchievementOptionsComponents (which is the in memory representation of VoicePacks)
     /// When loading/saving voicepack files from/to a file using AchievementOptionsComponents,
     /// some global variables get written. This is a wrapper class to try to decouple the loading of the voicepack
     /// from a file, from the actual using of the voicepack by the main program.
     /// 
-    /// It also allows for merging of AchievementOptionsComponents (TODO:put this functionality in its own class)
-    /// 
+    /// It also allows for merging of AchievementOptionsComponents, also see VoicePackMerger
+    /// It allowes equality comparison between AchievementOptionsComponents, also see VoicePackComparer
     /// </summary>
+    /// <remarks>
+    /// AchievmentOptionsComponents and VoicePack are uses interchangably.
+    /// AchievmentOptions is a separate class, represents one achievement, and is used in the AchievmentList (dictionary).
+    /// However the name achievementOptions is also found GlobalVariablesPS2.achievementOptions for example, but there it is
+    /// actually a AchievmentOptionsComponents instance. I use voicepack as I find it clearer what is meant.
+    /// </remarks>
     public class VoicePackExtended
     {
         /// Global Variables to take care/keep track of:
-        /// GlobalVariablesPS2.achievementOptions: the instance that gets used by the main program, gets changed during loading/saving
+        /// GlobalVariablesPS2.achievementOptions: the voicepack instance that gets used by the main program, gets changed during loading/saving
         /// GlobalVariablesPS2.loadedVoicePack: gets set when loading PAK file, is set to null when loadedVoicePack() is called
         /// GlobalVariablesPS2.loadedVoicePackConfigFile: I think this would point to a non-PAK (xml based) voice pack
         /// GlobalVariablesPS2.usingPAK: boolean that indicates if the voicepack is loaded from a pak file, or a xml based voice pack
@@ -44,24 +41,12 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         {
             VoicePack = new AchievementOptionsComponents();
             VoicePack.InitializeOnNull(); //reservers memory for all composite objects
-            //VoicePack.LoadNewAchievements(); //Creates the achievement list TODO: restoreDefaults does too, though it doesnt check if BasicDynamicSoundManager is created, all tests pass without it.. properly check!
-            VoicePack.RestoreDefaults(); //Adds componentInformation
+            VoicePack.RestoreDefaults(); //Adds add achievementlist and fills out default componentInformation
         }
 
         /// <summary>
-        /// Copy constructor
-        /// </summary>
-        /// <param name="other"></param>
-        //public VoicePackExtended(VoicePackExtended other)
-        //{
-        //    this.LoadedVoicePack = other.LoadedVoicePack;
-        //    this.LoadedVoicePackConfigFile = other.LoadedVoicePackConfigFile;
-        //    this.UsingPAK = other.UsingPAK;
-        //}
-
-        /// <summary>
         /// Creates a reference to the global AchievementOptions and all of the global state affected by loading/saving
-        /// the achievementOptions
+        /// the achievementOptions(Components)
         /// </summary>
         public void GetFromGlobal()
         {
@@ -76,10 +61,6 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </summary>
         public void SetAsGlobal()
         {
-            //this test prevents my unittests from working TODO: find solution or is it actually useful? maybe delete
-            //if (!IsValidVoicePackLoaded())
-            //    throw new InvalidOperationException("achievementOptions not loaded/initialized");
-
             GlobalVariablesPS2.achievementOptions = VoicePack;
             GlobalVariablesPS2.loadedVoicePack = LoadedVoicePack;
             GlobalVariablesPS2.loadedVoicePackConfigFile = LoadedVoicePackConfigFile;
@@ -319,16 +300,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
             if (VoicePack?.componentInformation == null || other.VoicePack?.componentInformation == null)
                 return false;
 
-            var compInfo = VoicePack.componentInformation;
-            var otherCompInfo = other.VoicePack.componentInformation;
-            return
-                compInfo.name == otherCompInfo.name &&
-                compInfo.author == otherCompInfo.author &&
-                compInfo.description == otherCompInfo.description &&
-                compInfo.sampleImage == otherCompInfo.sampleImage &&
-                compInfo.backupSampleImage == otherCompInfo.backupSampleImage;
+            return VoicePackComparer.EqualComponentInformation(VoicePack.componentInformation,
+                other.VoicePack.componentInformation);
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// Produces a formatted string representing the contents of this instance mainly used for debugging purposes.
@@ -433,129 +408,4 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
             return output.ToString();
         }
     }
-
-
-    // start of refactoring, not finished, should try TDD to get this in :D
-    //internal class VoicePackMerger
-    //{
-    //    /// <summary>
-    //    /// Merges otherAchievement into achievement, only used by Merge(AchievementOptionsComponents)
-    //    /// </summary>
-    //    /// <param name="achievement"></param>
-    //    /// <param name="otherAchievement"></param>
-    //    private static void _Merge(AchievementOptions achievement, AchievementOptions otherAchievement)
-    //    {
-    //        if(achievement == null || otherAchievement == null)
-    //            throw new ArgumentNullException();
-
-    //        //Sounds we wish to add can be in achievement.soundFile if its one, or in BasicDynamixSoundManager.sounds if there are more.
-    //        //First find all non-default sounds, put them in a list and then decide what to do
-    //        var soundsToAdd = new List<BasicAchievementSound>();
-    //        _AddNonDefaultSounds(achievement, soundsToAdd);
-    //        _AddNonDefaultSounds(otherAchievement, soundsToAdd);
-
-    //        if (soundsToAdd.Count == 1)
-    //        {
-    //            achievement.fileSoundPath = soundsToAdd[0].soundFile;
-    //            achievement.pakSoundPath = soundsToAdd[0].pakSoundFile;
-    //            achievement.dynamicSounds = null;
-    //        }
-    //        else if (soundsToAdd.Count > 1)
-    //        {
-    //            achievement.fileSoundPath = "default";
-    //            achievement.pakSoundPath = null;
-    //            achievement.dynamicSounds.sounds = soundsToAdd.ToArray();
-    //        }
-    //        //else if soundsToAdd.Count == 0, there is nothing to change, achievement has a default sound already (calling LoadNewAchievements() in Merge() makes sure of that)
-    //    }
-
-    //    /// <summary>
-    //    /// helper function that goes through the achievement and adds all its sounds into the sounds list parameter
-    //    /// </summary>
-    //    /// <param name="achievement"></param>
-    //    /// <param name="sounds"></param>
-    //    private static void _AddNonDefaultSounds(AchievementOptions achievement, List<BasicAchievementSound> sounds)
-    //    {
-    //        if (achievement.fileSoundPath.ToLower().Trim() != "default")
-    //        {
-    //            var soundToAdd = new BasicAchievementSound();
-    //            soundToAdd.soundFile = achievement.fileSoundPath;
-    //            soundToAdd.pakSoundFile = achievement.pakSoundPath; //apparently this is always empty
-    //            sounds.Add(soundToAdd);
-    //        }
-    //        else if (achievement.dynamicSounds != null && achievement.dynamicSounds.sounds != null)
-    //        {
-    //            sounds.AddRange(achievement.dynamicSounds.sounds);
-    //        }
-    //    }
-
-
-    //    /// <summary>
-    //    /// Merges rhs into AchievementList and returns a reference to AchievementList
-    //    /// </summary>
-    //    /// <param name="AchievementList">Left hand side parameter, not null</param>
-    //    /// <param name="rhs">Right hand side parameter, not null</param>
-    //    /// <returns></returns>
-    //    public static AchievementOptionsComponents MergeInto(AchievementOptionsComponents AchievementList,
-    //        AchievementOptionsComponents rhs)
-    //    {
-    //        //Pre-condition
-    //        if (AchievementList == null || rhs == null)
-    //            throw new ArgumentNullException();
-
-    //        //AchievementOptionsComponents merged = new AchievementOptionsComponents();
-
-    //        //make sure all achievments are in the list: the lists/dictionaries are the same length and contain the same keys
-    //        AchievementList.LoadNewAchievements();
-    //        rhs.LoadNewAchievements();
-    //        //merged.LoadNewAchievements();
-
-    //        var lhsAchievements = AchievementList.groupManager.achievementList;
-    //        var rhsAchievements = rhs.groupManager.achievementList;
-    //        foreach (var lhsAchievementPair in lhsAchievements)
-    //        {
-    //            var lhsAchievement = lhsAchievementPair.Value;
-    //            var rhsAchievement = rhsAchievements[lhsAchievementPair.Key];
-    //            _Merge(lhsAchievement, rhsAchievement);
-    //        }
-    //        /*
-
-    //        var achievementList = VoicePack.groupManager.achievementList;
-    //        var otherAchievementList = other.VoicePack.groupManager.achievementList;
-
-    //        foreach (var acheivementPair in achievementList)
-    //        {
-    //            var key = acheivementPair.Key;
-    //            AchievementOptions achievement = acheivementPair.Value;
-    //            AchievementOptions otherAchievement = otherAchievementList[key];
-    //            Merge(achievement, otherAchievement);
-    //        }
-
-    //        //Merge componentData
-    //        if (other.VoicePack.componentData == null) 
-    //            return;  //nothing to merge
-    //        if (VoicePack.componentData == null)
-    //        {
-    //            VoicePack.componentData = other.VoicePack.componentData;
-    //            return;
-    //        }
-    //        foreach (var otherData in other.VoicePack.componentData)
-    //        {
-    //            if (VoicePack.componentData.ContainsKey(otherData.Key))
-    //            {
-    //                //throw new InvalidOperationException("Trying to merge with voicepack with identical key for some sound/resource.\n Key: " + otherData.Key);
-    //                //TODO: possible workaround: create new key and update all references (e.g. AchievementOptions.pakSoundPath, 
-    //                Debug.WriteLine("Duplicate key detected while merging: " + otherData.Key + Environment.NewLine);
-    //            }
-    //            VoicePack.componentData[otherData.Key] = otherData.Value;
-    //        }
-    //        */
-
-    //        return null;
-    //    }
-
-
-
-
-    //}
 }

@@ -74,5 +74,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
                 sounds.AddRange(achievement.dynamicSounds.sounds);
             }
         }
+
+        public static void MergeComponentInformation(ComponentInformation compInfo1, ComponentInformation compInfo2)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

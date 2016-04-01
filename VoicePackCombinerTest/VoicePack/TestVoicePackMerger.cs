@@ -206,9 +206,40 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
 
 
         [TestMethod]
-        public void MergeComponentInfo()
+        public void MergeComponentInformation()
         {
-            
+            var compInfo1 = new ComponentInformation()
+            {
+                //only relevant fields (I hope ;) )
+                author = "author1",
+                backupSampleImage = "backupSampleImage1",
+                description = "description1",
+                name = "name1",
+                sampleImage = "sampleImage1"
+            };
+
+            var compInfo2 = new ComponentInformation()
+            {
+                //only relevant fields (I hope ;) )
+                author = "author2",
+                backupSampleImage = "backupSampleImage2",
+                description = "description2",
+                name = "name2",
+                sampleImage = "sampleImage2"
+            };
+
+            var expectedCompInfo = new ComponentInformation()
+            {
+                author = "author1, author2",
+                backupSampleImage = "backupSampleImage1",
+                description =   "Combined VoicePack: name1, name2",
+                name = "Combined VoicePack",
+                sampleImage = "sampleImage1"
+            };
+
+            //VoicePackMerger.MergeComponentInformation(compInfo1, compInfo2);
+
+            //Assert.IsTrue(VoicePackComparer.EqualComponentInformation(compInfo1, expectedCompInfo));
         }
     }
 }
