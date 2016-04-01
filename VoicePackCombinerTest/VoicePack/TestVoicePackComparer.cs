@@ -10,19 +10,6 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         readonly VoicePackExtended _testPack1 = new VoicePackExtended();
         readonly VoicePackExtended _testPack2 = new VoicePackExtended();
 
-        private static ComponentInformation CreateSampleCompInfo()
-        {
-            return new ComponentInformation()
-            {
-                //only relevant fields (I hope ;) )
-                author = "author",
-                backupSampleImage = "",
-                description = "description",
-                name = "name",
-                sampleImage = "sampleImage"
-            };
-        }
-
         [TestMethod]
         public void NullVoicePacksHaveEqualComponentInformation()
         {
@@ -40,9 +27,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         public void IdenticalSampleVoicePacksHaveEqualComponentInformation()
         {
             _testPack1.InitializeToDefault();
-            _testPack1.VoicePack.componentInformation = CreateSampleCompInfo();
+            _testPack1.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
             _testPack2.InitializeToDefault();
-            _testPack2.VoicePack.componentInformation = CreateSampleCompInfo();
+            _testPack2.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
 
             Assert.IsTrue(_testPack1.EqualComponentInfo(_testPack2));
         }
@@ -51,9 +38,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         public void SlightlyDifferentSampleVoicePacksDontHaveEqualComponentInformation()
         {
             _testPack1.InitializeToDefault();
-            _testPack1.VoicePack.componentInformation = CreateSampleCompInfo();
+            _testPack1.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
             _testPack2.InitializeToDefault();
-            _testPack2.VoicePack.componentInformation = CreateSampleCompInfo();
+            _testPack2.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
             _testPack2.VoicePack.componentInformation.author = "Someone Else";
             
             Assert.IsFalse(_testPack1.EqualComponentInfo(_testPack2));

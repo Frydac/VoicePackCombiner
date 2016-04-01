@@ -27,8 +27,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             _testPack1.Merge(_testPack2);
         }
 
-        //Test merge achievement
-        // merge achievementlist
+        //- Test merge achievement
+        //- merge achievementlist
         //Test merge componentInfo
         //Test merge componentdata
 
@@ -202,6 +202,13 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             expectedList["key2"] = key2ExpectedAchievement;
 
             Assert.IsTrue(VoicePackComparer.EqualAchievementLists(expectedList, achievementList1));
+        }
+
+
+        [TestMethod]
+        public void MergeComponentInfo()
+        {
+            
         }
     }
 }

@@ -57,20 +57,29 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\AssemblyTestSetup.cs" />
+    <Compile Include="..\AssemblyTestSetup.cs">
+      <Link>AssemblyTestSetup.cs</Link>
+    </Compile>
     <Compile Include="..\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePackCombinerTest.cs" />
-    <Compile Include="..\VoicePackTestData.cs" />
-    <Compile Include="..\VoicePack\VoicePackComparerTest.cs">
-      <Link>VoicePack\VoicePackComparerTest.cs</Link>
+    <Compile Include="..\TestVoicePackCombiner.cs">
+      <Link>TestVoicePackCombiner.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\VoicePackExtendedTest.cs">
-      <Link>VoicePack\VoicePackExtendedTest.cs</Link>
+    <Compile Include="..\VoicePackTestData.cs">
+      <Link>VoicePackTestData.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\VoicePackMergerTest.cs">
-      <Link>VoicePack\VoicePackMergerTest.cs</Link>
+    <Compile Include="..\VoicePack\TestVoicePackComparer.cs">
+      <Link>VoicePack\TestVoicePackComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\VoicePack\TestVoicePackExtended.cs">
+      <Link>VoicePack\TestVoicePackExtended.cs</Link>
+    </Compile>
+    <Compile Include="..\VoicePack\TestVoicePackMerger.cs">
+      <Link>VoicePack\TestVoicePackMerger.cs</Link>
+    </Compile>
+    <Compile Include="..\VoicePack\VoicePackSampleCreator.cs">
+      <Link>VoicePack\VoicePackSampleCreator.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +96,7 @@
       <Name>VoicePackCombiner</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
