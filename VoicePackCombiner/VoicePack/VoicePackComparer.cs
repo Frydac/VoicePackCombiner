@@ -1,7 +1,9 @@
+
+
 using System.Linq;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
+namespace RecursionTracker.Plugins.VoicePackCombiner
 {
     public class VoicePackComparer
     {
@@ -19,6 +21,29 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
                 lhs.description == rhs.description &&
                 lhs.sampleImage == rhs.sampleImage &&
                 lhs.backupSampleImage == rhs.backupSampleImage;
+        }
+
+        //public static bool EqualComponentData(XmlDictionary<string, ComponentData> componentData,
+        //    XmlDictionary<string, ComponentData> otherComponentData)
+        //{
+        //    if (componentData == null && otherComponentData == null)
+        //        return true;
+        //    if (componentData == null || otherComponentData == null)
+        //        return false;
+
+        //    if (componentDataSize(componentData) != componentData)
+
+        //    return false;
+        //}
+
+        private int componentDataSize(XmlDictionary<string, ComponentData> componentData)
+        {
+            int counter = 0;
+            foreach (var component in componentData)
+            {
+                counter++;
+            }
+            return counter;
         }
 
         /// <summary>

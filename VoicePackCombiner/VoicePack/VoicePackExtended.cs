@@ -7,19 +7,21 @@ using RecursionTracker.Plugins.PlanetSide2;
 namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
 {
     /// <summary>
-    /// VoicePackExtended represents an extension to AchievementOptionsComponents (which is the in memory representation of VoicePacks)
+    /// VoicePackExtended represents an extension to AchievementOptionsComponents (which is ao. the in memory representation of VoicePacks)
     /// When loading/saving voicepack files from/to a file using AchievementOptionsComponents,
-    /// some global variables get written. This is a wrapper class to try to decouple the loading of the voicepack
-    /// from a file, from the actual using of the voicepack by the main program.
+    /// some global variables get written.
+    /// This is a wrapper class to try to decouple the loading of the voicepack from a file, 
+    /// from the actual using of the voicepack by the main program.
     /// 
-    /// It also allows for merging of AchievementOptionsComponents, also see VoicePackMerger
-    /// It allowes equality comparison between AchievementOptionsComponents, also see VoicePackComparer
+    /// It also allows for merging of AchievementOptionsComponents (using VoicePackMerger).
+    /// It allowes equality comparison between AchievementOptionsComponents (using VoicePackComparer).
     /// </summary>
+    /// 
     /// <remarks>
-    /// AchievmentOptionsComponents and VoicePack are uses interchangably.
-    /// AchievmentOptions is a separate class, represents one achievement, and is used in the AchievmentList (dictionary).
+    /// The names "AchievmentOptionsComponents" and "VoicePack " are uses interchangably.
+    /// "AchievmentOptions" is a separate class, represents one achievement, and is used in the AchievmentList (dictionary).
     /// However the name achievementOptions is also found GlobalVariablesPS2.achievementOptions for example, but there it is
-    /// actually a AchievmentOptionsComponents instance. I use voicepack as I find it clearer what is meant.
+    /// actually a AchievmentOptionsComponents instance. 
     /// </remarks>
     public class VoicePackExtended
     {
@@ -41,7 +43,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         {
             VoicePack = new AchievementOptionsComponents();
             VoicePack.InitializeOnNull(); //reservers memory for all composite objects
-            VoicePack.RestoreDefaults(); //Adds add achievementlist and fills out default componentInformation
+            VoicePack.RestoreDefaults(); //Adds achievementlist and fills out default componentInformation
         }
 
         /// <summary>
@@ -176,7 +178,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
                 var key = acheivementPair.Key;
                 AchievementOptions achievement = acheivementPair.Value;
                 AchievementOptions otherAchievement = otherAchievementList[key];
-                Merge(achievement, otherAchievement);
+                //Merge(achievement, otherAchievement);
+                VoicePackMerger.MergeAchievement(achievement, otherAchievement);
             }
 
             //Merge componentData
@@ -248,18 +251,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
                 sounds.AddRange(achievement.dynamicSounds.sounds);
             }
         }
-        #endregion
-
-        //public void Extract(VoicePackExtended toExtract)
-        //{
-        //    //use references
-        //    //https://msdn.microsoft.com/en-us/library/system.object.referenceequals.aspx
-        //}
+#endregion
 
 #region equals functions
         /// <summary>
-        /// Now: very specific equals that serves my needs, it only checks the sound filenames
-        /// TODO: possibly not used anymore -> throw out
+        /// Checks if this.voicepack refers to the same sounds as other.voicepack
         /// </summary>
         /// <returns>true when equal, false when not equal</returns>
         public bool EqualSoundFilenames(VoicePackExtended other)
@@ -273,24 +269,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
             var achievements = VoicePack.groupManager.achievementList;
             var otherAchievements = other.VoicePack.groupManager.achievementList;
 
-            //the number of achievements is presumed to be equal, when its loaded, missing achievements are added
-
-            foreach (var achievementPair in achievements)
-            {
-                var key = achievementPair.Key;
-                if (!otherAchievements.ContainsKey(key)) return false;
-                var otherAchievement = otherAchievements[key];
-                var achievement = achievementPair.Value;
-
-                if (!VoicePackComparer.AchievementOptionsOneSoundEqual(achievement, otherAchievement))
-                    return false;
-
-                if (!VoicePackComparer.AchievementOptionsDynamicSoundsEqual(achievement, otherAchievement))
-                    return false;
-            }
-
-            Trace.WriteLine("EqualSoundFilenames returned true");
-            return true;
+            return VoicePackComparer.EqualAchievementLists(achievements, otherAchievements);
         }
 
         public bool EqualComponentInfo(VoicePackExtended other)

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoicePackCombiner", "VoicePackCombiner\VoicePackCombiner.csproj", "{C047F356-A412-4EC5-A7CB-09168BFE47B0}"
 EndProject
@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A2276DC-DFB4-435B-9AEF-FBCF921B76AC}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		..\emile\VoicePackCombiner\README.md = ..\emile\VoicePackCombiner\README.md
 	EndProjectSection
 EndProject
 Global

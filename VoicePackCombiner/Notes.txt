@@ -4,17 +4,22 @@ IsGlobal() gebruiken en functies proberen te testen die het gebruiken
 
 - split equals in sounds/componentinfo
 -	implement componentInfoEquals()
-
 - make sure my menu items dont disappear :) doesnt do it anymore.. dont know how this came to be
 - move equalcomponentinfo to voicepackcomparer and test (test exists but need to be rewritten)
+- move equalfilenames to voicepack comparer and rewrite tests. is EqualAchievementList
 
-move equalfilenames to voicepack comparer and rewrite tests
+extract equals functions to VoicePackComparer
+	+implement equalComponentData
+		implement xmldictionary length
+	
+move merge component data to voicepackmerger
 finish TestVoicePackMerger.MergeComponentInformation
 finish move of all merge functions to VoicePackMerger
 
+create new testdata packs, and revisit those tests to make them more clear
+
 start merge met default soundpack
 
-extract equals functions to VoicePackComparer
 
 merge info
         /// TODO: fill in values properly

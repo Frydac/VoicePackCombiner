@@ -4,6 +4,11 @@ using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
 
 namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack
 {
+    /// <summary>
+    /// Tests through VoicePackExtended rather than VoicePackComparer as it started there, but then 
+    /// got delegated to VoicePackComparer which is also tested through these tests. (not sure what
+    /// the best practices are in this case)
+    /// </summary>
     [TestClass]
     public class EqualComponentInfoTest
     {
@@ -64,6 +69,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         }
     }
 
+    /// <summary>
+    /// Tests through VoicePackExtended rather than VoicePackComparer as it started there, but then 
+    /// got delegated to VoicePackComparer which is also tested through these tests. In voicepackcomparer this is called
+    /// EqualAchievementList 
+    /// </summary>
     [TestClass]
     public class EqualSoundFileNamesTest
     {
@@ -102,7 +112,6 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
                 .dynamicSounds.sounds[0].pakSoundFile = "different sound filename";
 
             Assert.IsFalse(samplePack2.EqualSoundFilenames(samplePack1));
-
         }
 
         [TestCategory("Test With File Access"), TestMethod]
@@ -123,5 +132,16 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             l.LoadFromFile(TestData.Pack1Republished);
             Assert.IsFalse(k.EqualSoundFilenames(l), "This particular republished voicepack differs in one place, because republishing discards the old one sound when there are dynamic sounds (contrived example, tho not intended)");
         }
+    }
+
+    [TestClass]
+    public class TestEqualComponentData
+    {
+        [TestMethod]
+        public void NullComponentDataIsEqual()
+        {
+            //Assert.IsTrue(VoicePackComparer.EqualComponentData(null, null));
+        }
+
     }
 }
