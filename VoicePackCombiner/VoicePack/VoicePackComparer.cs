@@ -1,6 +1,7 @@
 
 
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using RecursionTracker.Plugins.PlanetSide2;
 
 namespace RecursionTracker.Plugins.VoicePackCombiner
@@ -23,20 +24,66 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                 lhs.backupSampleImage == rhs.backupSampleImage;
         }
 
-        //public static bool EqualComponentData(XmlDictionary<string, ComponentData> componentData,
-        //    XmlDictionary<string, ComponentData> otherComponentData)
-        //{
-        //    if (componentData == null && otherComponentData == null)
-        //        return true;
-        //    if (componentData == null || otherComponentData == null)
-        //        return false;
+        /// <summary>
+        /// Compare ComponentData objects for equality
+        /// </summary>
+        /// <param name="lhs">left hand side</param>
+        /// <param name="rhs">right hand side</param>
+        /// <returns>true if equal, false if not equal</returns>
+        public static bool EqualComponentData(XmlDictionary<string, ComponentData> lhs,
+            XmlDictionary<string, ComponentData> rhs)
+        {
+            if (lhs == null && rhs == null)
+                return true;
+            if (lhs == null || rhs == null)
+                return false;
 
-        //    if (componentDataSize(componentData) != componentData)
+            if (ComponentDataCollectionSize(lhs) != ComponentDataCollectionSize(rhs))
+                return false;
 
-        //    return false;
-        //}
+            foreach (var compDataPair in lhs)
+            {
+                var key = compDataPair.Key;
+                var compData = compDataPair.Value;
+                if (!rhs.ContainsKey(key)) return false;
+                var otherCompData = rhs[key];
 
-        private int componentDataSize(XmlDictionary<string, ComponentData> componentData)
+                if (!EqualComponentDataItem(compData, otherCompData))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Compares one ComponentData object with another, does not check the actual data:
+        /// if filename, datatype and data length are equal, they are presumed equal.
+        /// </summary>
+        /// <param name="lhs">left hand side</param>
+        /// <param name="rhs">right hand side</param>
+        /// <returns>true if equal, false if not equal</returns>
+        private static bool EqualComponentDataItem(ComponentData lhs, ComponentData rhs)
+        {
+            if (lhs.fileName != rhs.fileName) return false;
+            if (lhs.dataType != rhs.dataType) return false;
+
+            if (lhs.data == null && rhs.data == null)
+                return true;
+            if (lhs.data == null || rhs.data == null)
+                return false;
+            if(lhs.data != null && rhs.data != null)
+                if (lhs.data.Length != rhs.data.Length)
+                    return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Helper function that calculates the Size of a specific XmlDictionary, as that type doesnt have a lenght property
+        /// </summary>
+        /// <param name="componentData"></param>
+        /// <returns></returns>
+        private static int ComponentDataCollectionSize(XmlDictionary<string, ComponentData> componentData)
         {
             int counter = 0;
             foreach (var component in componentData)

@@ -78,7 +78,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             _settingsMenuItem.Click += settingsMenuItem_Click;
             _voicePackCombinerMenuItem.DropDownItems.Add(_settingsMenuItem);
 
-            _voicePackCombiner.VoicePackFiles.ListChanged += VoicePackFiles_ListChanged;
+            _voicePackCombiner.VoicePacksFilesToCombine.ListChanged += VoicePackFiles_ListChanged;
         }
 
         public void AddVoicePackCombinerSubMenuToParent(string parentMenuItemName)
@@ -148,7 +148,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         /// </summary>
         private void UpdateGUIVoicePackListIsEmpty()
         {
-            bool enableGUIControl = _voicePackCombiner.VoicePackFiles.Any();
+            bool enableGUIControl = _voicePackCombiner.VoicePacksFilesToCombine.Any();
 
             _useCombinedVoicepackMenuItem.Enabled = enableGUIControl;
         }

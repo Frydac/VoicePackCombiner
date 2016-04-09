@@ -34,7 +34,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 
         private void btnPrintBackupVoicePack_Click(object sender, EventArgs e)
         {
-            this.txtBoxDebugInfo.AppendText(_voicePackCombiner.OriginalAchievementsOptionsBackup.ToString());
+            this.txtBoxDebugInfo.AppendText(_voicePackCombiner.GlobalVoicePackBackup.ToString());
         }
 
         private void btnClearTxtBox_Click(object sender, EventArgs e)

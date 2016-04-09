@@ -62,7 +62,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             Assert.IsTrue(testPack2.EqualComponentInfo(testPack1), "VoicePacks loaded from same file should have same info");
 
             testPack2.LoadFromFile(TestData.VoicePackPAKBased);
-            Assert.IsFalse(testPack2.EqualComponentInfo(testPack1), "VoicePacks loaded from different file should have same info");
+            Assert.IsFalse(testPack2.EqualComponentInfo(testPack1), "VoicePacks loaded from different file should not have same info");
 
             testPack2.LoadFromFile(TestData.Pack1Republished);
             Assert.IsTrue(testPack2.EqualComponentInfo(testPack1), "VoicePacks loaded from republished file should have same info");
@@ -137,11 +137,71 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
     [TestClass]
     public class TestEqualComponentData
     {
+        readonly XmlDictionary<string, ComponentData> _compData1 = new XmlDictionary<string, ComponentData>();
+        readonly XmlDictionary<string, ComponentData> _compData2 = new XmlDictionary<string, ComponentData>();
+
         [TestMethod]
         public void NullComponentDataIsEqual()
         {
-            //Assert.IsTrue(VoicePackComparer.EqualComponentData(null, null));
+            Assert.IsTrue(VoicePackComparer.EqualComponentData(null, null));
         }
 
+        [TestMethod]
+        public void NullAndEmptyDataDictAreNotEqual()
+        {
+            Assert.IsFalse(VoicePackComparer.EqualComponentData(null, _compData1));
+        }
+
+        [TestMethod]
+        public void EmptyComponentDataDictsAreEqual()
+        {
+            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
+
+        [TestMethod]
+        public void DataDictWithDifferentSizeAreNotEqual()
+        {
+            _compData1["key"] = new ComponentData();
+
+            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
+
+        [TestMethod]
+        public void DataDictWithSameSizeButDifferentKeysAreNotEqual()
+        {
+            _compData1["key"] = new ComponentData();
+            _compData2["otherKey"] = new ComponentData();
+
+            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
+
+        [TestMethod]
+        public void DataDictsWithSameKeyAndEmptyDataItemAreEqual()
+        {
+            _compData1["key"] = new ComponentData();
+            _compData2["key"] = new ComponentData();
+
+            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
+
+        [TestMethod]
+        public void DataDicsWithSameKeyButDifferentDataItemSizesAreNotEqual()
+        {
+            const int dataItemsSize = 5;
+            _compData1["key"] = new ComponentData() {data = new byte[dataItemsSize]};
+            _compData2["key"] = new ComponentData() {data = new byte[dataItemsSize + 1]};
+
+            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
+
+        [TestMethod]
+        public void DataDicsWithSameKeyAndSameDataItemSizesAreEqual()
+        {
+            const int dataItemsSize = 5;
+            _compData1["key"] = new ComponentData() {data = new byte[dataItemsSize]};
+            _compData2["key"] = new ComponentData() {data = new byte[dataItemsSize]};
+
+            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+        }
     }
 }

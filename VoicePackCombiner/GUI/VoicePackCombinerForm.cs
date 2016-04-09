@@ -42,7 +42,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 
             this.RoundedEdges = true;
 
-            listBoxVoicePacks.DataSource = _voicePackCombiner.VoicePackFiles;
+            listBoxVoicePacks.DataSource = _voicePackCombiner.VoicePacksFilesToCombine;
             listBoxVoicePacks.DisplayMember = "Name";
             listBoxVoicePacks.ItemHeight = 17;
             listBoxVoicePacks.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
@@ -52,11 +52,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 
             //Need to add an updatemethod: otherwise the bound data is only updated when windows is closed.. (now it is updated when property changes, and when windows closes)
             checkBoxEnableCombinedVoicePack.DataBindings.Add("Checked", _voicePackCombiner, "UseCombinedVoicePack", true, DataSourceUpdateMode.OnPropertyChanged);
-            _voicePackCombiner.VoicePackFiles.ListChanged += VoicePackFiles_ListChanged;
+            _voicePackCombiner.VoicePacksFilesToCombine.ListChanged += VoicePackFiles_ListChanged;
             UpdateGUIVoicePackListIsEmpty();
 
             //Check if the global voicepack has changed since last time the UI was open
-            _voicePackCombiner.CheckGlobalVoicePackChanged();
+            _voicePackCombiner.CheckCombinedVoicePackIsStillGlobal();
             //Do the check every few seconds while UI is open so it gets updated
             pollGlobalVoicePackTimer = new System.Timers.Timer(5000);
             pollGlobalVoicePackTimer.Elapsed += pollGlobalVoicePackChanged_timerElapsed;
@@ -103,8 +103,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         /// </summary>
         void pollGlobalVoicePackChanged_timerElapsed(object sender, ElapsedEventArgs e)
         {
-            //Debug.WriteLine("time elapsed, eventhandler called");
-            _voicePackCombiner.CheckGlobalVoicePackChanged();
+            _voicePackCombiner.CheckCombinedVoicePackIsStillGlobal();
         }
         
 
@@ -127,7 +126,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         /// <param name="listIsEmpty"></param>
         void UpdateGUIVoicePackListIsEmpty()
         {
-            bool enableGUIControl = _voicePackCombiner.VoicePackFiles.Any();
+            bool enableGUIControl = _voicePackCombiner.VoicePacksFilesToCombine.Any();
 
             btnRemoveSelected.Enabled = enableGUIControl;
             checkBoxEnableCombinedVoicePack.Enabled = enableGUIControl;

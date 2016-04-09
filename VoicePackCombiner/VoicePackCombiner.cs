@@ -14,7 +14,7 @@ using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
 namespace RecursionTracker.Plugins.VoicePackCombiner
 {
     /// <summary> 
-    /// Represents the main model/data of the plugin  
+    /// Represents the main model/data of the VoicePackCombiner plugin  
     /// </summary>
     public class VoicePackCombiner : INotifyPropertyChanged
     {
@@ -22,7 +22,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// List of VoicePacks to combine, allows for databinding with GUI controls
         /// using FileInfo as type rather than the full path string to be able to bind the name property easily
         /// </summary>
-        public BindingList<FileInfo> VoicePackFiles { get; set; } = new BindingList<FileInfo>();
+        public BindingList<FileInfo> VoicePacksFilesToCombine { get; set; } = new BindingList<FileInfo>();
 
         /// <summary>
         /// Holds the merged combination of all the added voicepacks
@@ -30,12 +30,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         public VoicePackExtended CombinedVoicePack { get; private set; }
 
         /// <summary>
-        /// Holds a reference to the GlobalVariablesPS2.achievementOptions, so it can be restored when needed
+        /// Holds a backup reference to the original GlobalVariablesPS2.achievementOptions before loading VoicePackCombiner
         /// </summary>
-        public VoicePackExtended OriginalAchievementsOptionsBackup { get; private set; }
+        public VoicePackExtended GlobalVoicePackBackup { get; }
 
         /// <summary>
-        /// VoicePackCombiner uses this filename to save the current combined voicepack to disk
+        /// Holds the filename to save the current combined voicepack to a backup file, this is needed because some
+        /// user actions can cause the main program to reload from the file refered to by the current loaded voicepack.
+        /// And as this class merges existing voicepacks from different files in memory, the combination also needs to be saved to a file.
         /// </summary>
         readonly static string CombinedVoicePackBackupFilename = Path.Combine(Application.StartupPath, "VoicePackCombiner.CurrentCombinedVoicePack" + PlanetSide2.GlobalVariablesPS2.VOICEPACK_FILE_EXT);
 
@@ -53,53 +55,46 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                 var useCombinedVoicePack = value;
                 if (useCombinedVoicePack)
                 {
+                    //TODO: this if test is removable when we always load a default voicepack
                     if (!CombinedVoicePack.IsValidVoicePackLoaded())
                     {
-                        //Can't use non-existing voicepack so dont change value, 
+                        //Can't use non-existing voicepack so dont change _useCombinedVoicePack, 
                         //do send out changed event so ui element used to set this to true, knows the value isn't accepted and the gui element is unset again 
-                        Debug.WriteLine("useCombinedVoicepack: " + _useCombinedVoicePack);
                         OnPropertyChanged("UseCombinedVoicePack");
                         return;
                     }
 
-                    OriginalAchievementsOptionsBackup.GetFromGlobal();
+                    GlobalVoicePackBackup.GetFromGlobal();
                     CombinedVoicePack.SetAsGlobal();
                 }
                 else
                 {
-                    //var globalAchievmentOptions = new VoicePackExtended();
-                    //globalAchievmentOptions.GetFromGlobal();
-                    //if (globalAchievmentOptions.EqualSoundFilenames(CombinedVoicePack))
                     if(CombinedVoicePack.IsGlobal())
                         //The voicepack in use is indeed our combined one, so revert to the backup voicepack
-                        OriginalAchievementsOptionsBackup.SetAsGlobal();
+                        GlobalVoicePackBackup.SetAsGlobal();
                     else
                     {
-                        //The voicepack in use is not the combined one, meaning the user has used the main program to load another voicepack
+                        //The voicepack in use was not the combined one anymore, meaning the user has used the main program to load another voicepack
                         //while useCombinedVoicePack==true, so the backup will be out of date. We create a new backup to get back in sync.
-                        OriginalAchievementsOptionsBackup.GetFromGlobal();
+                        GlobalVoicePackBackup.GetFromGlobal();
                     }
                 }
-                _useCombinedVoicePack = value;
+                //accept the input value
+                _useCombinedVoicePack = useCombinedVoicePack;
                 OnPropertyChanged("UseCombinedVoicePack");
 
-                UpdateUseCombinedVoicePackSettingsFile();
+                SaveUseCombinedVoicePackToSettings();
             }
         }
 
         private bool _useCombinedVoicePack = false;
 
-        private void UpdateUseCombinedVoicePackSettingsFile()
-        {
-            Properties.VoicePackCombiner.Default.UseCombinedVoicePack = _useCombinedVoicePack;
-            Properties.VoicePackCombiner.Default.Save();
-        }
-
-
         public VoicePackCombiner(bool loadFromSettingFile = true)
         {
             CombinedVoicePack = new VoicePackExtended();
-            OriginalAchievementsOptionsBackup = new VoicePackExtended();
+            CombinedVoicePack.InitializeToDefault();
+            GlobalVoicePackBackup = new VoicePackExtended();
+            GlobalVoicePackBackup.InitializeToDefault();
             if(loadFromSettingFile) LoadFromUserSettings(); 
         }
 
@@ -108,14 +103,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// </summary>
         void LoadFromUserSettings()
         {
-            LoadVoicePackFileListFromSettings();
+            LoadVoicePacksToCombineFromSettings();
             UseCombinedVoicePack = Properties.VoicePackCombiner.Default.UseCombinedVoicePack;
         }
 
         /// <summary>
-        /// Loads the last used list of voicepacks (to combine) from the user settings file
+        /// Loads the last saved list of voicepacks to combine from the user settings file
         /// </summary>
-        private void LoadVoicePackFileListFromSettings()
+        private void LoadVoicePacksToCombineFromSettings()
         {
             //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
             if(Properties.VoicePackCombiner.Default.VoicePackFileList == null) return;
@@ -125,16 +120,22 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         }
 
         /// <summary>
-        /// Save the current list of voicepacks (to combine) to the user settings file
+        /// Save the current list of voicepacks to combine to the user settings file
         /// </summary>
         void SaveVoicePackFileListToSettings()
         {
             Properties.VoicePackCombiner.Default.VoicePackFileList = new StringCollection();
             var voicePackSettings = Properties.VoicePackCombiner.Default.VoicePackFileList;
-            foreach (var voicePackFile in VoicePackFiles)
+            foreach (var voicePackFile in VoicePacksFilesToCombine)
             {
                 voicePackSettings.Add(voicePackFile.FullName);
             }
+            Properties.VoicePackCombiner.Default.Save();
+        }
+
+        private void SaveUseCombinedVoicePackToSettings()
+        {
+            Properties.VoicePackCombiner.Default.UseCombinedVoicePack = _useCombinedVoicePack;
             Properties.VoicePackCombiner.Default.Save();
         }
 
@@ -147,15 +148,15 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             {
                 bool loadSuccess = false;
 
-                if (!VoicePackFiles.Any())
+                if (!VoicePacksFilesToCombine.Any())
                     loadSuccess = CombinedVoicePack.LoadFromFile(filename);
                 else
                     loadSuccess = CombinedVoicePack.Merge(filename);
 
-                if(loadSuccess)
-                    VoicePackFiles.Add(new FileInfo(filename));
+                if (loadSuccess)
+                    VoicePacksFilesToCombine.Add(new FileInfo(filename));
                 else
-                    throw new FileLoadException("Failed to load voicepack", filename);
+                    MessageBox.Show($"Failed to load: {filename}\nRemoved from the list of voice packs to combine.");
             }
             SaveVoicePackFileListToSettings();
         }
@@ -170,29 +171,29 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// </remarks>
         public void RemoveVoicePacks(List<FileInfo> files)
         {
-            foreach (var file in files) VoicePackFiles.Remove(file);
+            foreach (var file in files) VoicePacksFilesToCombine.Remove(file);
 
-            ReCombine();
+            RecombineVoicePackFilesToCombine();
 
             SaveVoicePackFileListToSettings();
         }
 
         /// <summary>
-        /// Rebuilds _combinedAchievementOptions from the VoicePackFiles list
+        /// Rebuilds _combinedAchievementOptions from the VoicePacksFilesToCombine list
         /// It rereads the voicepacks from file, so checks if they still load and removes from list when necessary
         ///  </summary>
-        private void ReCombine()
+        private void RecombineVoicePackFilesToCombine()
         {
-            if (!VoicePackFiles.Any())
+            if (!VoicePacksFilesToCombine.Any())
             {
                 CombinedVoicePack.VoicePack = null;
                 return;
             }
 
             CombinedVoicePack = new VoicePackExtended();
-            CombinedVoicePack.LoadFromFile(VoicePackFiles[0].FullName);
+            CombinedVoicePack.LoadFromFile(VoicePacksFilesToCombine[0].FullName);
             List<FileInfo> invalidFilesToRemove = new List<FileInfo>();
-            foreach (var voicePackFile in VoicePackFiles.Skip(1))
+            foreach (var voicePackFile in VoicePacksFilesToCombine.Skip(1))
             {
                 if(!CombinedVoicePack.Merge(voicePackFile.FullName))
                     invalidFilesToRemove.Add(voicePackFile);
@@ -200,32 +201,35 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
 
             foreach (var invalidFile in invalidFilesToRemove)
             {
-                VoicePackFiles.Remove(invalidFile);
+                VoicePacksFilesToCombine.Remove(invalidFile);
             }
         }
 
 
         /// <summary>
-        /// Checks if the current loaded voicepack aka globalVoicePack is changed without using this class/plugin (for example using the main program to load a new voicepack)
+        /// Checks if the current loaded voicepack aka globalVoicePack is still the combined voicepack.
+        /// The user may have loaded another voicepack using the main program load functionality.
         /// If it is changed, update the internal state to reflect the change.
         /// </summary>
-        /// <returns>true if it was changed, false if they where equal</returns>
-        public bool CheckGlobalVoicePackChanged()
+        public void CheckCombinedVoicePackIsStillGlobal()
         {
-            //This makes only sense when the combined voicepack is (supposed to be) in use
-            if (!UseCombinedVoicePack) return false;
+            //if (!UseCombinedVoicePack) return false;
 
-            if (CombinedVoicePack.IsGlobal())
+            //if (CombinedVoicePack.IsGlobal())
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    GlobalVoicePackBackup.GetFromGlobal();  
+            //    UseCombinedVoicePack = false;
+            //    return true;
+            //}
+
+            if (UseCombinedVoicePack && !CombinedVoicePack.IsGlobal())
             {
-                //Debug.WriteLine("Global VoicePack not changed");
-                return false;
-            }
-            else
-            {
-                //Debug.WriteLine("Global VoicePack changed");
-                OriginalAchievementsOptionsBackup.GetFromGlobal();  
                 UseCombinedVoicePack = false;
-                return true;
+                GlobalVoicePackBackup.GetFromGlobal();
             }
         }
 

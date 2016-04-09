@@ -8,17 +8,35 @@ IsGlobal() gebruiken en functies proberen te testen die het gebruiken
 - move equalcomponentinfo to voicepackcomparer and test (test exists but need to be rewritten)
 - move equalfilenames to voicepack comparer and rewrite tests. is EqualAchievementList
 
-extract equals functions to VoicePackComparer
-	+implement equalComponentData
-		implement xmldictionary length
-	
+- extract equals functions to VoicePackComparer
+    - implement equalComponentData
+    - implement xmldictionary length
+
+- create at least one test without pak problem for mergecomponentdata
+
+
+the first voicepack loaded in recombine is still in the list, though it didnt load properly (I think), check that
+  start with default would solve the problem I guess?
+  remove duplication in add and recombine, starting with default would help
+  remove redundant if
+finish FindPAKReferenceInVoicePackAndChangeIntegrationTest
+test creating a new voicepak and then adding a image file and see how it is stored in the voicepack datastructure: pretty sure its groupManagerBackgroundImage
+implement find pak reference (to adjust to doubles in componentdata)
+implement fixdoubles
 move merge component data to voicepackmerger
 finish TestVoicePackMerger.MergeComponentInformation
 finish move of all merge functions to VoicePackMerger
 
+make old style voicepacks work when they are not in the right folder, walk through it trying to play a sound with eventsimulator mod
+
+add messagebox or something, when recombine (or after restart) cant find the voicepacks
+create tool to remove excess datacomponent data
+
+remove restriction for old soundpacks to have to be in the recursion folder
+    
 create new testdata packs, and revisit those tests to make them more clear
 
-start merge met default soundpack
+(start merge met default soundpack)
 
 
 merge info

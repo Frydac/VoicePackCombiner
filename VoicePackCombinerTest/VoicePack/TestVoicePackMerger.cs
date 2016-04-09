@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RecursionTracker.Plugins.PlanetSide2;
 using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
@@ -241,5 +242,79 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
 
             //Assert.IsTrue(VoicePackComparer.EqualComponentInformation(compInfo1, expectedCompInfo));
         }
+    }
+
+    [TestClass]
+    public class TestMergeComponentData
+    { 
+        [TestMethod]
+        public void MergeSimpleSampleComponentData()
+        {
+            var compDataDict1 = new XmlDictionary<string, ComponentData>();
+            var compDataDict2 = new XmlDictionary<string, ComponentData>();
+
+            var sampleCompData = new ComponentData();
+            compDataDict2["key2"] = sampleCompData;
+
+            VoicePackMerger.MergeComponentData(compDataDict1, compDataDict2);
+
+            Assert.IsTrue(compDataDict1.ContainsKey("key2"));
+            Assert.AreEqual(compDataDict1["key2"], sampleCompData);
+        }
+
+        //might have to move
+        [TestMethod]
+        public void TestFindPAKString()
+        {
+            VoicePackExtended xmlbased = new VoicePackExtended();
+            xmlbased.LoadFromFile(@"c:\Program Files (x86)\Recursion\RecursionTracker\buzzcutpsycho.rtst_vpk");
+            VoicePackExtended PAKbased = new VoicePackExtended();
+            PAKbased.LoadFromFile(@"c:\Program Files (x86)\Recursion\RecursionTracker\TheOfficeUS_v1.3_YCW.rtst_vpk");
+
+            int a = 10;
+            int b = a*a;
+            Console.WriteLine(b);
+            //pack.VoicePack.groupManager.BackgroundImage << xml based filename
+            //pack.VoicePack.groupManager.pakBackgroundImage = "pakBackgroundImage";  << seems to be the only one in use
+            //pack.VoicePack.IsFromPAK();
+            //pack.VoicePack.groupManager.achievementList[0].pakSoundPath;
+            //pack.VoicePack.groupManager.achievementList[0].dynamicSounds.sounds[0].pakSoundFile;
+            //pack.VoicePack.groupManager.componentInfo.sampleImage  <- pakBackgroundImage??
+            //pack.VoicePack.componentInformation.sampleImage <- same as above? I think this componentinfo is only used for referencing the file it came from
+        }
+        //null into something
+
+        //sample element into sample element
+
+        [TestMethod, TestCategory("Test With File Access")]
+        public void FindPAKReferenceInVoicePackAndChangeIntegrationTest()
+        {
+            VoicePackExtended pack = new VoicePackExtended();
+            pack.LoadFromFile(TestData.VoicePackTheOffice);
+
+            //Just find
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", null));
+
+            //Find and replace
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", "newstring"));
+
+            //Find replaced string, should not be found
+            Assert.IsFalse(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", null));
+
+            //Find new string, should be found
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "newstring", null));
+
+            //manually check the right place of the string
+            //should be in HEADSHOT achievement, which is in place 0
+            var test = pack.VoicePack.groupManager.achievementList["HEAD_SHOT"].dynamicSounds.sounds[1].pakSoundFile;
+            Console.WriteLine(test);
+            //		pakSoundFile	"HesDead.ogg_System.Byte"	string HEADSHOT ix 0
+
+
+
+            //		pakSoundPath	"RanOver.ogg_System.Byte"	string ROAD_KILL ix 3
+
+        }
+
     }
 }

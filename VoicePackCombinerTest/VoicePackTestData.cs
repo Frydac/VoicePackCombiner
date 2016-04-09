@@ -17,6 +17,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
         public static readonly string RealFileButNoValidVoicePackFile = Path.Combine(TestDataFolder, "dummyFile.rtst_vpk");
         public static readonly string VoicePackXMLBased = Path.Combine(TestDataFolder, "AL_PACINO.rtst_vpk");
         public static readonly string VoicePackPAKBased = Path.Combine(TestDataFolder, "RAVP.rtst_vpk");
+        public static readonly string VoicePackTheOffice = Path.Combine(TestDataFolder, "TheOfficeUS_v1.3_YCW.rtst_vpk");
 
 
         /// These depend on files from the build folder used by RTLibrary, which should be in the same folder

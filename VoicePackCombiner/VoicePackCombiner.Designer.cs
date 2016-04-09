@@ -51,10 +51,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OriginalVoicePackBackup {
             get {
-                return ((string)(this["OriginalVoicePackBackup"]));
+                return ((string)(this["GlobalVoicePackBackup"]));
             }
             set {
-                this["OriginalVoicePackBackup"] = value;
+                this["GlobalVoicePackBackup"] = value;
             }
         }
     }
