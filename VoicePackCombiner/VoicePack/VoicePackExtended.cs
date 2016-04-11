@@ -2,27 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Forms;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
 {
     /// <summary>
-    /// VoicePackExtended represents an extension to AchievementOptionsComponents (which is ao. the in memory representation of VoicePacks)
+    /// VoicepackExtended represents an extension to AchievementOptionsComponents (which is ao. the in memory representation of Voicepacks)
     /// When loading/saving voicepack files from/to a file using AchievementOptionsComponents,
     /// some global variables get written so that the loaded file is always used as the current voicepack.
     /// This is a wrapper class to decouple the loading of the voicepack from a file, 
     /// from the actual using of the voicepack by the main program.
     /// 
-    /// VoicePackExtended also functions as a facade to VoicePackMerger and VoicePackComparer.
+    /// VoicepackExtended also functions as a facade to VoicepackMerger and VoicepackComparer.
     /// </summary>
     /// 
     /// <remarks>
-    /// I use the name "VoicePack" in stead of the "AchievmentOptionsComponents". 
+    /// I use the name "Voicepack" in stead of the "AchievmentOptionsComponents". 
     /// "AchievmentOptions" is a separate class, represents one achievement, and is used in the AchievmentList (dictionary/map).
     /// However the name achievementOptions is also found in GlobalVariablesPS2.achievementOptions for example, but there it is
     /// actually a AchievmentOptionsComponents instance. 
     /// </remarks>
-    public class VoicePackExtended
+    public class VoicepackExtended
     {
         /// Global Variables to take care/keep track of:
         /// GlobalVariablesPS2.achievementOptions: the voicepack instance that gets used by the main program, gets changed during loading/saving
@@ -30,9 +31,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// GlobalVariablesPS2.loadedVoicePackConfigFile: points to the xml based voicepack file
         /// GlobalVariablesPS2.usingPAK: boolean that indicates if the voicepack is loaded from a pak, or xml based voicepack file
 
-        public AchievementOptionsComponents VoicePack { get; set; } = null;
-        public string LoadedVoicePack { get; set; }
-        public string LoadedVoicePackConfigFile { get; set; }
+        public AchievementOptionsComponents Voicepack { get; set; } = null;
+        public string LoadedVoicepack { get; set; }
+        public string LoadedVoicepackConfigFile { get; set; }
         public bool UsingPAK { get; set; }
 
         /// <summary>
@@ -40,9 +41,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </summary>
         public void InitializeToDefault()
         {
-            VoicePack = new AchievementOptionsComponents();
-            VoicePack.InitializeOnNull(); 
-            VoicePack.RestoreDefaults(); 
+            Voicepack = new AchievementOptionsComponents();
+            Voicepack.InitializeOnNull(); 
+            Voicepack.RestoreDefaults(); 
         }
 
         /// <summary>
@@ -51,20 +52,20 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </summary>
         public void GetFromGlobal()
         {
-            VoicePack = GlobalVariablesPS2.achievementOptions;
-            LoadedVoicePack = GlobalVariablesPS2.loadedVoicePack;
-            LoadedVoicePackConfigFile = GlobalVariablesPS2.loadedVoicePackConfigFile;
+            Voicepack = GlobalVariablesPS2.achievementOptions;
+            LoadedVoicepack = GlobalVariablesPS2.loadedVoicePack;
+            LoadedVoicepackConfigFile = GlobalVariablesPS2.loadedVoicePackConfigFile;
             UsingPAK = GlobalVariablesPS2.usingPAK;
         }
 
         /// <summary>
-        /// Sets this voicepack as the GlobalVariablesPS2.achievementOptions, which causes this.VoicePack to be used by the main program.
+        /// Sets this voicepack as the GlobalVariablesPS2.achievementOptions, which causes this.Voicepack to be used by the main program.
         /// </summary>
         public void SetAsGlobal()
         {
-            GlobalVariablesPS2.achievementOptions = VoicePack;
-            GlobalVariablesPS2.loadedVoicePack = LoadedVoicePack;
-            GlobalVariablesPS2.loadedVoicePackConfigFile = LoadedVoicePackConfigFile;
+            GlobalVariablesPS2.achievementOptions = Voicepack;
+            GlobalVariablesPS2.loadedVoicePack = LoadedVoicepack;
+            GlobalVariablesPS2.loadedVoicePackConfigFile = LoadedVoicepackConfigFile;
             GlobalVariablesPS2.usingPAK = UsingPAK;
         }
 
@@ -78,8 +79,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </remarks>
         public bool IsGlobal()
         {
-            return GlobalVariablesPS2.loadedVoicePack == this.LoadedVoicePack
-                   && GlobalVariablesPS2.loadedVoicePackConfigFile == this.LoadedVoicePackConfigFile;
+            return GlobalVariablesPS2.loadedVoicePack == this.LoadedVoicepack
+                   && GlobalVariablesPS2.loadedVoicePackConfigFile == this.LoadedVoicepackConfigFile;
         }
 
 
@@ -92,44 +93,51 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </remarks>
         public bool LoadFromFile(string filename)
         {
-            var globalBackup = new VoicePackExtended();
+            var globalBackup = new VoicepackExtended();
 
             globalBackup.GetFromGlobal();
             {
-                GlobalVariablesPS2.achievementOptions = new AchievementOptionsComponents();
-                GlobalVariablesPS2.achievementOptions.LoadFromPAKFile(filename);
-                this.GetFromGlobal();
+                try
+                {
+                    GlobalVariablesPS2.achievementOptions = new AchievementOptionsComponents();
+                    GlobalVariablesPS2.achievementOptions.LoadFromPAKFile(filename);
+                    this.GetFromGlobal();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Failed to load:\n{filename}\n\n With error:\n{e}");
+                }
             }
             globalBackup.SetAsGlobal();
 
-            return IsValidVoicePackLoaded();
+            return IsValidVoicepackLoaded();
         }
 
         /// <summary>
         /// Returns true if this contains a valid voicepack, i.e. a voicepack that contains something rather than nothing
         /// </summary>
         /// <returns></returns>
-        public bool IsValidVoicePackLoaded()
+        public bool IsValidVoicepackLoaded()
         {
             //This is not a complete validation, but trail and error has shown this to be enough
-            return VoicePack?.groupManager?.achievementList != null 
-                && VoicePack.groupManager.achievementList.Count != 0;
+            return Voicepack?.groupManager?.achievementList != null 
+                && Voicepack.groupManager.achievementList.Count != 0;
         }
 
         /// <summary>
-        /// Saves this.VoicePack to a binary voicepack file. Makes sure any global state that might be altered during this
+        /// Saves this.Voicepack to a binary voicepack file. Makes sure any global state that might be altered during this
         /// operation is restored.
         /// </summary>
         /// <remarks> see remarks LoadFromFile() </remarks>
         public void ExportToFile(string filename)
         {
-            if (!IsValidVoicePackLoaded()) return;
+            if (!IsValidVoicepackLoaded()) return;
 
-            var globalBackup = new VoicePackExtended();
+            var globalBackup = new VoicepackExtended();
             globalBackup.GetFromGlobal();
             {
                 this.SetAsGlobal();
-                this.VoicePack.CreatePAKFile(filename);
+                this.Voicepack.CreatePAKFile(filename);
             }
             globalBackup.SetAsGlobal();
         }
@@ -141,7 +149,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// </summary>
         public bool Merge(string voicePackFilename)
         {
-            VoicePackExtended other = new VoicePackExtended();
+            VoicepackExtended other = new VoicepackExtended();
             if (other.LoadFromFile(voicePackFilename))
             {
                 this.Merge(other);
@@ -154,14 +162,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// Merges the achievementsOptionsComponens (aka voicepack) of other into this
         /// </summary>
         /// <param name="other"></param>
-        public void Merge(VoicePackExtended other)
+        public void Merge(VoicepackExtended other)
         {
-            if(!IsValidVoicePackLoaded())
+            if(!IsValidVoicepackLoaded())
                 throw new InvalidOperationException();
-            if(other == null || !other.IsValidVoicePackLoaded())
+            if(other == null || !other.IsValidVoicepackLoaded())
                 throw new ArgumentNullException();
 
-            VoicePackMerger.Merge(this, other);
+            VoicepackMerger.Merge(this, other);
         }
 #endregion
 
@@ -170,29 +178,29 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// Checks if this.voicepack refers to the same sounds as other.voicepack
         /// </summary>
         /// <returns>true when equal, false when not equal</returns>
-        public bool EqualSoundFilenames(VoicePackExtended other)
+        public bool EqualSoundFilenames(VoicepackExtended other)
         {
-            if (!this.IsValidVoicePackLoaded() && !other.IsValidVoicePackLoaded())
+            if (!this.IsValidVoicepackLoaded() && !other.IsValidVoicepackLoaded())
                 return true;
 
-            if (!this.IsValidVoicePackLoaded() || !other.IsValidVoicePackLoaded())
+            if (!this.IsValidVoicepackLoaded() || !other.IsValidVoicepackLoaded())
                 return false;
 
-            var achievements = VoicePack.groupManager.achievementList;
-            var otherAchievements = other.VoicePack.groupManager.achievementList;
+            var achievements = Voicepack.groupManager.achievementList;
+            var otherAchievements = other.Voicepack.groupManager.achievementList;
 
-            return VoicePackComparer.EqualAchievementLists(achievements, otherAchievements);
+            return VoicepackComparer.EqualAchievementLists(achievements, otherAchievements);
         }
 
-        public bool EqualComponentInfo(VoicePackExtended other)
+        public bool EqualComponentInfo(VoicepackExtended other)
         {
-            if (VoicePack?.componentInformation == null && other.VoicePack?.componentInformation == null)
+            if (Voicepack?.componentInformation == null && other.Voicepack?.componentInformation == null)
                 return true;
-            if (VoicePack?.componentInformation == null || other.VoicePack?.componentInformation == null)
+            if (Voicepack?.componentInformation == null || other.Voicepack?.componentInformation == null)
                 return false;
 
-            return VoicePackComparer.EqualComponentInformation(VoicePack.componentInformation,
-                other.VoicePack.componentInformation);
+            return VoicepackComparer.EqualComponentInformation(Voicepack.componentInformation,
+                other.Voicepack.componentInformation);
         }
 #endregion
 
@@ -203,16 +211,16 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// <returns></returns>
         public string ToString()
         {
-            if (VoicePack == null) return "VoicePack == null"; 
+            if (Voicepack == null) return "Voicepack == null"; 
 
             var output = new StringBuilder();
 
             output.AppendLine();
-            output.AppendFormat("{0,-30}{1,-30}{2}", "LoadedVoicePack: ", LoadedVoicePack, Environment.NewLine);
-            output.AppendFormat("{0,-30}{1,-30}{2}", "LoadedVoicePackConfigFile: ", LoadedVoicePackConfigFile, Environment.NewLine);
+            output.AppendFormat("{0,-30}{1,-30}{2}", "LoadedVoicepack: ", LoadedVoicepack, Environment.NewLine);
+            output.AppendFormat("{0,-30}{1,-30}{2}", "LoadedVoicepackConfigFile: ", LoadedVoicepackConfigFile, Environment.NewLine);
             output.AppendFormat("{0,-30}{1,-30}{2}", "UsingPAK: ", UsingPAK, Environment.NewLine);
 
-            var groupManager = VoicePack.groupManager;
+            var groupManager = Voicepack.groupManager;
             if (groupManager == null)
             {
                 output.AppendLine("groupManager is null, nothing further to print");
@@ -220,7 +228,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
             }
 
             var componentInfo = groupManager.componentInfo;
-            if (VoicePack.groupManager.componentInfo == null)
+            if (Voicepack.groupManager.componentInfo == null)
             {
                 output.AppendLine("componentInfo is null");
             }
@@ -287,9 +295,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
                 output.AppendFormat("{0,-30}{1,-30}{2}", "soundEnabled: ", achievement.Value.soundEnabled, Environment.NewLine);
             }
 
-            output.AppendFormat("{0}ComponentData: {1} entries {0}", Environment.NewLine, VoicePack.componentData.Count);
+            output.AppendFormat("{0}ComponentData: {1} entries {0}", Environment.NewLine, Voicepack.componentData.Count);
             count = 0;
-            foreach (var dataPair in VoicePack.componentData)
+            foreach (var dataPair in Voicepack.componentData)
             {
                 if (count == 5) break;
                 count++;

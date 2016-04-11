@@ -4,25 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RecursionTracker.Plugins.PlanetSide2;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
+using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest.VoicePack
 {
     /// <summary>
-    /// Create a sample VoicePackExtended to test with
+    /// Create a sample VoicepackExtended to test with
     /// </summary>
     public static class VoicePackSampleCreator
     {
         
         public static readonly string[] SampleAchievements = { "PER_KILL", "HUMILIATION", "KILLING_SPREE", "UNSTOPPABLE" };
 
-        public static VoicePackExtended Create()
+        public static VoicepackExtended Create()
         {
-            var sample = new VoicePackExtended();
+            var sample = new VoicepackExtended();
             sample.InitializeToDefault();
 
             //One achievement with 1 'old style' sound
-            var achievementList = sample.VoicePack.groupManager.achievementList;
+            var achievementList = sample.Voicepack.groupManager.achievementList;
             achievementList[SampleAchievements[0]].fileSoundPath = "filepath1";
             achievementList[SampleAchievements[0]].pakSoundPath = "pakpath1";
 

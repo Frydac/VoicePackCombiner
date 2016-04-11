@@ -4,14 +4,14 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
+namespace RecursionTracker.Plugins.VoicepackCombiner.GUI
 {
     /// <summary>
     /// Represents the Menu Item that is added to the main gui form in order for the user
-    /// to access the VoicePackCombiner plugin
-    /// It serves as view and controller using VoicePackCombiner as model
+    /// to access the VoicepackCombiner plugin
+    /// It serves as view and controller using VoicepackCombiner as model
     /// </summary>
-    internal class VoicePackCombinerMenuItems
+    internal class VoicepackCombinerMenuItems
     {
         private static Color menuForeColor = Color.FromArgb(175, 175, 175);
 
@@ -22,14 +22,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         /// </summary>
         private ToolStripMenuItem _voicePackCombinerMenuItem = new ToolStripMenuItem
         {
-            Text = "Voice Pack Combiner",
+            Text = "Voicepack Combiner",
             Name = "_voicePackCombinerItem",
             ForeColor = menuForeColor 
         };
 
         private ToolStripMenuItem _useCombinedVoicepackMenuItem = new ToolStripMenuItem
         {
-            Text = "Use Combined Voice Pack",
+            Text = "Use Combined Voicepack",
             Name = "_useCombinedVoicepackMenuItem",
             CheckOnClick = true,
             ForeColor = menuForeColor,
@@ -43,45 +43,45 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             Name = "_settingsMenuItem"
         };
 
-        private VoicePackCombiner _voicePackCombiner = null;
-        private VoicePackCombinerForm _voicePackCombinerForm = null;
+        private VoicepackCombiner _voicepackCombiner = null;
+        private VoicepackCombinerForm _voicepackCombinerForm = null;
         private GUIMain _mainForm = null;
 
         /// <summary>
         /// Creates and adds the voicepack combiner menu items as children to parentItemName
         /// </summary>
-        public VoicePackCombinerMenuItems(string parentItemName, 
-            VoicePackCombiner voicePackCombiner,
-            VoicePackCombinerForm voicePackCombinerForm,
+        public VoicepackCombinerMenuItems(string parentItemName, 
+            VoicepackCombiner voicepackCombiner,
+            VoicepackCombinerForm voicepackCombinerForm,
             GUIMain mainForm)
         {
-            _voicePackCombiner = voicePackCombiner;
-            _voicePackCombinerForm = voicePackCombinerForm;
+            _voicepackCombiner = voicepackCombiner;
+            _voicepackCombinerForm = voicepackCombinerForm;
             _mainForm = mainForm;
 
-            CreateVoicePackCombinerSubMenu();
-            AddVoicePackCombinerSubMenuToParent(parentItemName);
+            CreateVoicepackCombinerSubMenu();
+            AddVoicepackCombinerSubMenuToParent(parentItemName);
 
-            UpdateGUIVoicePackListIsEmpty();
+            UpdateGUIVoicepackListIsEmpty();
         }
 
-        private void CreateVoicePackCombinerSubMenu()
+        private void CreateVoicepackCombinerSubMenu()
         {
-            //useCombinedVoicePack can be changed in the pluginform as well as in this menu, so needs an observer
+            //useCombinedVoicepack can be changed in the pluginform as well as in this menu, so needs an observer
             //Manual two way binding, as ToolStripMenuItem.checked doesnt implement the databinding features
-            _voicePackCombiner.PropertyChanged += useCombinedVoicePack_Changed;
-            _useCombinedVoicepackMenuItem.Checked = _voicePackCombiner.UseCombinedVoicePack;
+            _voicepackCombiner.PropertyChanged += UseCombinedVoicepackChanged;
+            _useCombinedVoicepackMenuItem.Checked = _voicepackCombiner.UseCombinedVoicepack;
 
-            _useCombinedVoicepackMenuItem.Click += useCombinedVoicePackMenuItem_Click;
+            _useCombinedVoicepackMenuItem.Click += useCombinedVoicepackMenuItem_Click;
             _voicePackCombinerMenuItem.DropDownItems.Add(_useCombinedVoicepackMenuItem);
 
             _settingsMenuItem.Click += settingsMenuItem_Click;
             _voicePackCombinerMenuItem.DropDownItems.Add(_settingsMenuItem);
 
-            _voicePackCombiner.VoicePacksFilesToCombine.ListChanged += VoicePackFiles_ListChanged;
+            _voicepackCombiner.VoicepacksFilesToCombine.ListChanged += VoicepackFiles_ListChanged;
         }
 
-        public void AddVoicePackCombinerSubMenuToParent(string parentMenuItemName)
+        public void AddVoicepackCombinerSubMenuToParent(string parentMenuItemName)
         {
             var mainFormMenuStripItems = _mainForm.MainMenuStrip.Items;
             if (mainFormMenuStripItems.ContainsKey(parentMenuItemName))
@@ -92,82 +92,82 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             else
             {
                 throw new InvalidOperationException(
-                    "Can't insert new menu item for VoicePackCombiner Plugin. ");
+                    "Can't insert new menu item for VoicepackCombiner Plugin. ");
             }
         }
 
         /// <summary>
         /// Handeling the model/property update because the UI element was used
         /// </summary>
-        private void useCombinedVoicePackMenuItem_Click(Object sender, EventArgs e)
+        private void useCombinedVoicepackMenuItem_Click(Object sender, EventArgs e)
         {
-            _voicePackCombiner.UseCombinedVoicePack = ((ToolStripMenuItem)sender).Checked;
+            _voicepackCombiner.UseCombinedVoicepack = ((ToolStripMenuItem)sender).Checked;
         }
 
         /// <summary>
         /// Handeling the UI update because the model/property has changed (menuItem.checked has no databindings)
         /// </summary>
-        private void useCombinedVoicePack_Changed(object sender, PropertyChangedEventArgs e)
+        private void UseCombinedVoicepackChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName ==  "UseCombinedVoicePack")
+            if (e.PropertyName ==  "UseCombinedVoicepack")
             {
-                //_useCombinedVoicepackMenuItem.Checked = ((VoicePackCombiner) sender).UseCombinedVoicePack;
-                SetUseCombinedVoicePackMenuItemChecked(((VoicePackCombiner)sender).UseCombinedVoicePack);
+                //_useCombinedVoicepackMenuItem.Checked = ((VoicepackCombiner) sender).UseCombinedVoicepack;
+                SetUseCombinedVoicepackMenuItemChecked(((VoicepackCombiner)sender).UseCombinedVoicepack);
             }
         }
 
         /// <summary>
         /// Helper function along the lines of:
         /// https://msdn.microsoft.com/en-us/library/ms171728.aspx
-        /// As there is a timer (aka thread) that can alter UseCombinedVoicePack, this makes it threadsafe 
+        /// As there is a timer (aka thread) that can alter UseCombinedVoicepack, this makes it threadsafe 
         /// </summary>
-        private void SetUseCombinedVoicePackMenuItemChecked(bool check)
+        private void SetUseCombinedVoicepackMenuItemChecked(bool check)
         {
             if (_useCombinedVoicepackMenuItem.GetCurrentParent().InvokeRequired)
             {
-                var f = new SetUseCombinedVoicePackMenuItemCheckedCallback(SetUseCombinedVoicePackMenuItemChecked);
+                var f = new SetUseCombinedVoicepackMenuItemCheckedCallback(SetUseCombinedVoicepackMenuItemChecked);
                 _useCombinedVoicepackMenuItem.GetCurrentParent().Invoke(f, new object[] {check});
             }
             else
                 _useCombinedVoicepackMenuItem.Checked = check;
         }
         //Callback declaration to Invoke by this thread
-        private delegate void SetUseCombinedVoicePackMenuItemCheckedCallback(bool check);
+        private delegate void SetUseCombinedVoicepackMenuItemCheckedCallback(bool check);
 
         /// <summary>
-        /// Eventhandler that brings up the VoicePackCombinerForm
+        /// Eventhandler that brings up the VoicepackCombinerForm
         /// </summary>
         private void settingsMenuItem_Click(Object sender, EventArgs e)
         {
             //When the form is closed it is not null, but I have to create a new one in stead of just making it visible
             //because else the rounded edges wont look properly. (Maybe there is a better way to re-initialize the edges..)
-            if (_voicePackCombinerForm == null || !_voicePackCombinerForm.Visible)
-                _voicePackCombinerForm = new VoicePackCombinerForm(_voicePackCombiner);
-            else if (_voicePackCombinerForm.Visible)
+            if (_voicepackCombinerForm == null || !_voicepackCombinerForm.Visible)
+                _voicepackCombinerForm = new VoicepackCombinerForm(_voicepackCombiner);
+            else if (_voicepackCombinerForm.Visible)
                 return;
 
             //Show the plugin GUI and position it in the middle of the main GUI 
-            _voicePackCombinerForm.StartPosition = FormStartPosition.Manual;
-            _voicePackCombinerForm.Location = new Point(
-                _mainForm.Location.X + (_mainForm.Width - _voicePackCombinerForm.Width) / 2,
-                _mainForm.Location.Y + (_mainForm.Height - _voicePackCombinerForm.Height) / 2);
-            _voicePackCombinerForm.Show(_mainForm);
+            _voicepackCombinerForm.StartPosition = FormStartPosition.Manual;
+            _voicepackCombinerForm.Location = new Point(
+                _mainForm.Location.X + (_mainForm.Width - _voicepackCombinerForm.Width) / 2,
+                _mainForm.Location.Y + (_mainForm.Height - _voicepackCombinerForm.Height) / 2);
+            _voicepackCombinerForm.Show(_mainForm);
         }
 
         /// <summary>
-        /// Handeling voice pack list change events, when empty -> disable gui element
+        /// Handeling voicepack list change events, when empty -> disable gui element
         /// </summary>
-        void VoicePackFiles_ListChanged(object sender, ListChangedEventArgs e)
+        void VoicepackFiles_ListChanged(object sender, ListChangedEventArgs e)
         {
-            UpdateGUIVoicePackListIsEmpty();
+            UpdateGUIVoicepackListIsEmpty();
         }
 
         /// <summary>
         /// Enables/disables menu item depending on wether the voicepackfilelist is empty.
         /// </summary>
-        private void UpdateGUIVoicePackListIsEmpty()
+        private void UpdateGUIVoicepackListIsEmpty()
         {
-            bool enableGUIControl = _voicePackCombiner.VoicePacksFilesToCombine.Any();
+            bool enableGUIControl = _voicepackCombiner.VoicepacksFilesToCombine.Any();
 
             _useCombinedVoicepackMenuItem.Enabled = enableGUIControl;
         }

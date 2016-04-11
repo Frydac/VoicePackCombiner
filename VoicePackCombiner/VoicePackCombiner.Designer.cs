@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Properties {
+namespace RecursionTracker.Plugins.VoicepackCombiner.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class VoicePackCombiner : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class VoicepackCombiner : global::System.Configuration.ApplicationSettingsBase {
         
-        private static VoicePackCombiner defaultInstance = ((VoicePackCombiner)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new VoicePackCombiner())));
+        private static VoicepackCombiner defaultInstance = ((VoicepackCombiner)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new VoicepackCombiner())));
         
-        public static VoicePackCombiner Default {
+        public static VoicepackCombiner Default {
             get {
                 return defaultInstance;
             }
@@ -26,35 +26,35 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool UseCombinedVoicePack {
+        public bool UseCombinedVoicepack {
             get {
-                return ((bool)(this["UseCombinedVoicePack"]));
+                return ((bool)(this["UseCombinedVoicepack"]));
             }
             set {
-                this["UseCombinedVoicePack"] = value;
+                this["UseCombinedVoicepack"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.StringCollection VoicePackFileList {
+        public global::System.Collections.Specialized.StringCollection VoicepackFileList {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["VoicePackFileList"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["VoicepackFileList"]));
             }
             set {
-                this["VoicePackFileList"] = value;
+                this["VoicepackFileList"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string OriginalVoicePackBackup {
+        public string OriginalVoicepackBackup {
             get {
-                return ((string)(this["GlobalVoicePackBackup"]));
+                return ((string)(this["GlobalVoicepackBackup"]));
             }
             set {
-                this["GlobalVoicePackBackup"] = value;
+                this["GlobalVoicepackBackup"] = value;
             }
         }
     }

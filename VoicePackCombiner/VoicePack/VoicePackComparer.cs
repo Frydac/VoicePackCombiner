@@ -4,9 +4,9 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner
+namespace RecursionTracker.Plugins.VoicepackCombiner
 {
-    public class VoicePackComparer
+    public class VoicepackComparer
     {
         /// <summary>
         /// Compare ComponentInformation objects for equality.
@@ -113,10 +113,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
                 var otherAchievement = rhs[key];
                 var achievement = achievementPair.Value;
 
-                if (!VoicePackComparer.AchievementOptionsOneSoundEqual(achievement, otherAchievement))
+                if (!VoicepackComparer.AchievementOptionsOneSoundEqual(achievement, otherAchievement))
                     return false;
 
-                if (!VoicePackComparer.AchievementOptionsDynamicSoundsEqual(achievement, otherAchievement))
+                if (!VoicepackComparer.AchievementOptionsDynamicSoundsEqual(achievement, otherAchievement))
                     return false;
             }
             return true;

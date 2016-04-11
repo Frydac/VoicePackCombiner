@@ -4,18 +4,18 @@ using System.Diagnostics;
 using System.Linq;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
 {
-    public class VoicePackMerger
+    public class VoicepackMerger
     {
         private const string _defaultfileSoundPath = "default";
 
-        public static void Merge(VoicePackExtended voicePack, VoicePackExtended otherVoicePack)
+        public static void Merge(VoicepackExtended voicepack, VoicepackExtended otherVoicepack)
         {
-            MergeAchievementList(voicePack.VoicePack.groupManager.achievementList, otherVoicePack.VoicePack.groupManager.achievementList);
-            MergeComponentData(voicePack.VoicePack.componentData, otherVoicePack.VoicePack.componentData);
+            MergeAchievementList(voicepack.Voicepack.groupManager.achievementList, otherVoicepack.Voicepack.groupManager.achievementList);
+            MergeComponentData(voicepack.Voicepack.componentData, otherVoicepack.Voicepack.componentData);
             //TODO
-            //VoicePackMerger.MergeComponentInformation(VoicePack.componentInformation, other.VoicePack.componentInformation);
+            //VoicepackMerger.MergeComponentInformation(Voicepack.componentInformation, other.Voicepack.componentInformation);
             
         }
         /// <summary>
@@ -133,13 +133,13 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// So can only work with a container of a string.
         /// To avoid code duplication of a search only function: if you only want to search, pass null as newPAKReference
         /// </remarks>
-        /// <param name="voicePack">voicepack to search in</param>
+        /// <param name="voicepack">voicepack to search in</param>
         /// <param name="oldPAKReference">string to search for</param>
         /// <param name="newPAKReference">string to replace oldPAKReference with, pass null to search without changing</param>
         /// <returns>true if found (and optionally changed), false if not found</returns>
-        public static bool FindPAKreferenceInVoicePackAndReplace(VoicePackExtended voicePack, string oldPAKReference, string newPAKReference=null)
+        public static bool FindPAKreferenceInVoicepackAndReplace(VoicepackExtended voicepack, string oldPAKReference, string newPAKReference=null)
         {
-            var groupManager = voicePack.VoicePack.groupManager;
+            var groupManager = voicepack.Voicepack.groupManager;
 
             //check backgroundimage
             if (groupManager.pakBackgroundImage == oldPAKReference)

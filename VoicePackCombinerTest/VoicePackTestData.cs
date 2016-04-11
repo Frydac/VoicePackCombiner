@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest
 {
     /// <summary>
     /// TestData on hard drive
@@ -21,7 +21,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
 
 
         /// These depend on files from the build folder used by RTLibrary, which should be in the same folder
-        /// as VoicePackCombiner project folder, and also depends on RTPluginPS2 being installed in that build
+        /// as VoicepackCombiner project folder, and also depends on RTPluginPS2 being installed in that build
         /// Folder as a Mod.
         public static readonly string buildFolder = @"..\..\..\..\Build";
         public static readonly string achievementSettings = Path.Combine(buildFolder, @"Settings\AchievementSettings.xml");

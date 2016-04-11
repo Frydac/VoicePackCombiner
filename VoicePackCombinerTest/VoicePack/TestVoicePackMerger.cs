@@ -2,15 +2,15 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RecursionTracker.Plugins.PlanetSide2;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
+using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest.VoicePack
 {
     [TestClass]
     public class VoicePackMergerTest
     {
-        readonly VoicePackExtended _testPack1 = new VoicePackExtended();
-        readonly VoicePackExtended _testPack2 = new VoicePackExtended();
+        readonly VoicepackExtended _testPack1 = new VoicepackExtended();
+        readonly VoicepackExtended _testPack2 = new VoicepackExtended();
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
@@ -37,7 +37,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [ExpectedException(typeof (ArgumentNullException))]
         public void TryingToMergeNullAchievementThrows()
         {
-            VoicePackMerger.MergeAchievement(new AchievementOptions(), null);
+            VoicepackMerger.MergeAchievement(new AchievementOptions(), null);
         }
 
         public AchievementOptions CreateOneSoundAchievement(string pakSoundPath, string fileSoundPath)
@@ -84,11 +84,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             var oneSoundAchievement = CreateOneSoundAchievement("pakSoundPath", "fileSoundPath");
 
 
-            VoicePackMerger.MergeAchievement(defaultAchievement, oneSoundAchievement);
+            VoicepackMerger.MergeAchievement(defaultAchievement, oneSoundAchievement);
 
 
             var expectedAchievement = oneSoundAchievement;
-            Assert.IsTrue(VoicePackComparer.AchievementOptionsOneSoundEqual(expectedAchievement, defaultAchievement));
+            Assert.IsTrue(VoicepackComparer.AchievementOptionsOneSoundEqual(expectedAchievement, defaultAchievement));
         }
 
         [TestMethod]
@@ -98,20 +98,20 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             var oneSoundAchievement2 = CreateOneSoundAchievement("pakSoundPath2", "fileSoundPath2");
 
 
-            VoicePackMerger.MergeAchievement(oneSoundAchievement1, oneSoundAchievement2);
+            VoicepackMerger.MergeAchievement(oneSoundAchievement1, oneSoundAchievement2);
 
 
             var expectedAchievementSameOrder = CreateDynamicSoundsAchievement(new string[2, 2]
             {{"pakSoundPath1", "fileSoundPath1"}, 
                 {"pakSoundPath2", "fileSoundPath2"}});
-            Assert.IsTrue(VoicePackComparer.AchievementOptionsDynamicSoundsEqual(
+            Assert.IsTrue(VoicepackComparer.AchievementOptionsDynamicSoundsEqual(
                 expectedAchievementSameOrder, oneSoundAchievement1));
 
             //also check other order
             var expectedAchievementDifferentOrder = CreateDynamicSoundsAchievement(new string[2, 2]
             {{"pakSoundPath2", "fileSoundPath2"}, 
                 {"pakSoundPath1", "fileSoundPath1"}});
-            Assert.IsTrue(VoicePackComparer.AchievementOptionsDynamicSoundsEqual(
+            Assert.IsTrue(VoicepackComparer.AchievementOptionsDynamicSoundsEqual(
                 expectedAchievementDifferentOrder, oneSoundAchievement1));
         }
 
@@ -124,14 +124,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             {{"pakSoundPath3", "fileSoundPath3"}, 
                 {"pakSoundPath2", "fileSoundPath2"}});
 
-            VoicePackMerger.MergeAchievement(oneSoundAchievement, dynamicSoundsAchievment);
+            VoicepackMerger.MergeAchievement(oneSoundAchievement, dynamicSoundsAchievment);
 
             var expectedAchievement  = CreateDynamicSoundsAchievement(new string[3, 2]
             {{"pakSoundPath3", "fileSoundPath3"},
                 {"pakSoundPath2", "fileSoundPath2"}, 
                 {"pakSoundPath1", "fileSoundPath1"}});
 
-            Assert.IsTrue(VoicePackComparer.AchievementOptionsDynamicSoundsEqual(expectedAchievement, oneSoundAchievement));
+            Assert.IsTrue(VoicepackComparer.AchievementOptionsDynamicSoundsEqual(expectedAchievement, oneSoundAchievement));
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             {{"pakSoundPath1", "fileSoundPath1"}, 
                 {"pakSoundPath4", "fileSoundPath4"}});
 
-            VoicePackMerger.MergeAchievement(dynamicSoundsAchievment1, dynamicSoundsAchievment2);
+            VoicepackMerger.MergeAchievement(dynamicSoundsAchievment1, dynamicSoundsAchievment2);
 
             var expectedAchievement  = CreateDynamicSoundsAchievement(new string[4, 2]
             {{"pakSoundPath2", "fileSoundPath2"}, 
@@ -153,7 +153,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
                 {"pakSoundPath3", "fileSoundPath3"},
                 {"pakSoundPath4", "fileSoundPath4"}});
 
-            Assert.IsTrue(VoicePackComparer.AchievementOptionsDynamicSoundsEqual(expectedAchievement, dynamicSoundsAchievment1));
+            Assert.IsTrue(VoicepackComparer.AchievementOptionsDynamicSoundsEqual(expectedAchievement, dynamicSoundsAchievment1));
         }
 
         //a mix of one and dynamic would have been better, kind of code duplication when making the lists
@@ -184,7 +184,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
                 ["key2"] = dynamicSoundsAchievment3
             };
 
-            VoicePackMerger.MergeAchievementList(achievementList1, achievementList2);
+            VoicepackMerger.MergeAchievementList(achievementList1, achievementList2);
 
             var key1ExpectedAchievement = CreateDynamicSoundsAchievement(new string[4, 2]
             {{"pakSoundPath1", "fileSoundPath1"}, 
@@ -202,7 +202,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             expectedList["key1"] = key1ExpectedAchievement;
             expectedList["key2"] = key2ExpectedAchievement;
 
-            Assert.IsTrue(VoicePackComparer.EqualAchievementLists(expectedList, achievementList1));
+            Assert.IsTrue(VoicepackComparer.EqualAchievementLists(expectedList, achievementList1));
         }
 
 
@@ -233,14 +233,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             {
                 author = "author1, author2",
                 backupSampleImage = "backupSampleImage1",
-                description =   "Combined VoicePack: name1, name2",
-                name = "Combined VoicePack",
+                description =   "Combined Voicepack: name1, name2",
+                name = "Combined Voicepack",
                 sampleImage = "sampleImage1"
             };
 
-            //VoicePackMerger.MergeComponentInformation(compInfo1, compInfo2);
+            //VoicepackMerger.MergeComponentInformation(compInfo1, compInfo2);
 
-            //Assert.IsTrue(VoicePackComparer.EqualComponentInformation(compInfo1, expectedCompInfo));
+            //Assert.IsTrue(VoicepackComparer.EqualComponentInformation(compInfo1, expectedCompInfo));
         }
     }
 
@@ -256,7 +256,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             var sampleCompData = new ComponentData();
             compDataDict2["key2"] = sampleCompData;
 
-            VoicePackMerger.MergeComponentData(compDataDict1, compDataDict2);
+            VoicepackMerger.MergeComponentData(compDataDict1, compDataDict2);
 
             Assert.IsTrue(compDataDict1.ContainsKey("key2"));
             Assert.AreEqual(compDataDict1["key2"], sampleCompData);
@@ -266,21 +266,21 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void TestFindPAKString()
         {
-            VoicePackExtended xmlbased = new VoicePackExtended();
+            VoicepackExtended xmlbased = new VoicepackExtended();
             xmlbased.LoadFromFile(@"c:\Program Files (x86)\Recursion\RecursionTracker\buzzcutpsycho.rtst_vpk");
-            VoicePackExtended PAKbased = new VoicePackExtended();
+            VoicepackExtended PAKbased = new VoicepackExtended();
             PAKbased.LoadFromFile(@"c:\Program Files (x86)\Recursion\RecursionTracker\TheOfficeUS_v1.3_YCW.rtst_vpk");
 
             int a = 10;
             int b = a*a;
             Console.WriteLine(b);
-            //pack.VoicePack.groupManager.BackgroundImage << xml based filename
-            //pack.VoicePack.groupManager.pakBackgroundImage = "pakBackgroundImage";  << seems to be the only one in use
-            //pack.VoicePack.IsFromPAK();
-            //pack.VoicePack.groupManager.achievementList[0].pakSoundPath;
-            //pack.VoicePack.groupManager.achievementList[0].dynamicSounds.sounds[0].pakSoundFile;
-            //pack.VoicePack.groupManager.componentInfo.sampleImage  <- pakBackgroundImage??
-            //pack.VoicePack.componentInformation.sampleImage <- same as above? I think this componentinfo is only used for referencing the file it came from
+            //pack.Voicepack.groupManager.BackgroundImage << xml based filename
+            //pack.Voicepack.groupManager.pakBackgroundImage = "pakBackgroundImage";  << seems to be the only one in use
+            //pack.Voicepack.IsFromPAK();
+            //pack.Voicepack.groupManager.achievementList[0].pakSoundPath;
+            //pack.Voicepack.groupManager.achievementList[0].dynamicSounds.sounds[0].pakSoundFile;
+            //pack.Voicepack.groupManager.componentInfo.sampleImage  <- pakBackgroundImage??
+            //pack.Voicepack.componentInformation.sampleImage <- same as above? I think this componentinfo is only used for referencing the file it came from
         }
         //null into something
 
@@ -289,24 +289,24 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod, TestCategory("Test With File Access")]
         public void FindPAKReferenceInVoicePackAndChangeIntegrationTest()
         {
-            VoicePackExtended pack = new VoicePackExtended();
+            VoicepackExtended pack = new VoicepackExtended();
             pack.LoadFromFile(TestData.VoicePackTheOffice);
 
             //Just find
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", null));
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, "HesDead.ogg_System.Byte", null));
 
             //Find and replace
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", "newstring"));
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, "HesDead.ogg_System.Byte", "newstring"));
 
             //Find replaced string, should not be found
-            Assert.IsFalse(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", null));
+            Assert.IsFalse(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, "HesDead.ogg_System.Byte", null));
 
             //Find new string, should be found
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "newstring", null));
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, "newstring", null));
 
             //manually check the right place of the string
             //should be in HEADSHOT achievement, which is in place 0
-            var test = pack.VoicePack.groupManager.achievementList["HEAD_SHOT"].dynamicSounds.sounds[1].pakSoundFile;
+            var test = pack.Voicepack.groupManager.achievementList["HEAD_SHOT"].dynamicSounds.sounds[1].pakSoundFile;
             Console.WriteLine(test);
             //		pakSoundFile	"HesDead.ogg_System.Byte"	string HEADSHOT ix 0
 
@@ -321,7 +321,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
     [TestClass]
     public class TestFindPAKReferenceInVoicePackAndChangeIntegration
     {
-        VoicePackExtended pack = new VoicePackExtended();
+        VoicepackExtended pack = new VoicepackExtended();
         private const string findMe = "stringToFind";
         private const string replaceWith = "stringToReplaceWith";
         private const string key = "key";
@@ -335,33 +335,33 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void FindPAKBackupImage()
         {
-            pack.VoicePack.groupManager.pakBackgroundImage = findMe;
+            pack.Voicepack.groupManager.pakBackgroundImage = findMe;
 
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe));
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, findMe));
         }
 
         [TestMethod]
         public void FindAndReplacePAKBackupImage()
         {
-            pack.VoicePack.groupManager.pakBackgroundImage = findMe;
+            pack.Voicepack.groupManager.pakBackgroundImage = findMe;
 
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe, replaceWith));
-            Assert.AreEqual(pack.VoicePack.groupManager.pakBackgroundImage, replaceWith);
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, findMe, replaceWith));
+            Assert.AreEqual(pack.Voicepack.groupManager.pakBackgroundImage, replaceWith);
         }
 
         [TestMethod]
         public void FindAndReplaceOldStyleOneSoundPath()
         {
-            pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions() {pakSoundPath = findMe};
+            pack.Voicepack.groupManager.achievementList[key] = new AchievementOptions() {pakSoundPath = findMe};
 
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe, replaceWith));
-            Assert.AreEqual(pack.VoicePack.groupManager.achievementList[key].pakSoundPath, replaceWith);
+            Assert.IsTrue(VoicepackMerger.FindPAKreferenceInVoicepackAndReplace(pack, findMe, replaceWith));
+            Assert.AreEqual(pack.Voicepack.groupManager.achievementList[key].pakSoundPath, replaceWith);
         }
 
         [TestMethod]
         public void FindAndReplaceNewStyleDynamicSounsPath()
         {
-            //pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions()
+            //pack.Voicepack.groupManager.achievementList[key] = new AchievementOptions()
             //        { sounds = new BasicAchievementSound[2] } };
         }
     }

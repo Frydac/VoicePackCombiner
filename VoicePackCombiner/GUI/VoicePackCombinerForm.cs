@@ -10,59 +10,59 @@ using System.Timers;
 using System.Windows.Forms;
 using RecursionTracker.Plugins.PlanetSide2;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
+namespace RecursionTracker.Plugins.VoicepackCombiner.GUI
 {
     using GlobalVariablesPS2 = PlanetSide2.GlobalVariablesPS2;
     /// <summary>
     /// Represents the main view/GUI/(controller) of the plugin
     /// </summary>
-    public partial class VoicePackCombinerForm : GUIForm
+    public partial class VoicepackCombinerForm : GUIForm
     {
         /// <summary>
         /// reference to the main model class which holds all state
         /// </summary>
-        VoicePackCombiner _voicePackCombiner;
+        VoicepackCombiner _voicepackCombiner;
 
         /// <summary>
         /// timer used for checking if the current loaded voicepack is changed and update GUI if needed
         /// </summary>
-        System.Timers.Timer pollGlobalVoicePackTimer;
+        System.Timers.Timer pollGlobalVoicepackTimer;
 
-        ToolTip VoicePackCombinerFormTooltips = new ToolTip();
+        ToolTip VoicepackCombinerFormTooltips = new ToolTip();
 
-        public VoicePackCombinerForm(VoicePackCombiner voicePackCombiner)
+        public VoicepackCombinerForm(VoicepackCombiner voicepackCombiner)
         {
             InitializeComponent();
             base.Initialize();
 
-            _voicePackCombiner = voicePackCombiner;
+            _voicepackCombiner = voicepackCombiner;
 
             // Custom renderer for displaying gradients and background color.
             menuStrip1.Renderer = new CustomToolStripRenderer();
 
             this.RoundedEdges = true;
 
-            listBoxVoicePacks.DataSource = _voicePackCombiner.VoicePacksFilesToCombine;
-            listBoxVoicePacks.DisplayMember = "Name";
-            listBoxVoicePacks.ItemHeight = 17;
-            listBoxVoicePacks.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            listBoxVoicePacks.DrawItem += new DrawItemEventHandler(listBox_DrawItem);
-            listBoxVoicePacks.DragEnter += new DragEventHandler(listBox_DragEntered);
-            listBoxVoicePacks.DragDrop += new DragEventHandler(listBox_DragDropped);
+            listBoxVoicepacks.DataSource = _voicepackCombiner.VoicepacksFilesToCombine;
+            listBoxVoicepacks.DisplayMember = "Name";
+            listBoxVoicepacks.ItemHeight = 17;
+            listBoxVoicepacks.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            listBoxVoicepacks.DrawItem += new DrawItemEventHandler(listBox_DrawItem);
+            listBoxVoicepacks.DragEnter += new DragEventHandler(listBox_DragEntered);
+            listBoxVoicepacks.DragDrop += new DragEventHandler(listBox_DragDropped);
 
             //Need to add an updatemethod: otherwise the bound data is only updated when windows is closed.. (now it is updated when property changes, and when windows closes)
-            checkBoxEnableCombinedVoicePack.DataBindings.Add("Checked", _voicePackCombiner, "UseCombinedVoicePack", true, DataSourceUpdateMode.OnPropertyChanged);
-            _voicePackCombiner.VoicePacksFilesToCombine.ListChanged += VoicePackFiles_ListChanged;
-            UpdateGUIVoicePackListIsEmpty();
+            checkBoxEnableCombinedVoicepack.DataBindings.Add("Checked", _voicepackCombiner, "UseCombinedVoicepack", true, DataSourceUpdateMode.OnPropertyChanged);
+            _voicepackCombiner.VoicepacksFilesToCombine.ListChanged += VoicepackFiles_ListChanged;
+            UpdateGUIVoicepackListIsEmpty();
 
             //Check if the global voicepack has changed since last time the UI was open
-            _voicePackCombiner.CheckCombinedVoicePackIsStillGlobal();
+            _voicepackCombiner.CheckCombinedVoicepackIsStillGlobal();
             //Do the check every few seconds while UI is open so it gets updated
-            pollGlobalVoicePackTimer = new System.Timers.Timer(5000);
-            pollGlobalVoicePackTimer.Elapsed += pollGlobalVoicePackChanged_timerElapsed;
-            pollGlobalVoicePackTimer.Start();
+            pollGlobalVoicepackTimer = new System.Timers.Timer(5000);
+            pollGlobalVoicepackTimer.Elapsed += PollGlobalVoicepackChangedTimerElapsed;
+            pollGlobalVoicepackTimer.Start();
 
-            VoicePackCombinerFormTooltips.SetToolTip(listBoxVoicePacks, "Testing tooltips");
+            VoicepackCombinerFormTooltips.SetToolTip(listBoxVoicepacks, "Testing tooltips");
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         private void UpdateColors()
         {
             int gray = 64;
-            listBoxVoicePacks.BackColor = Color.FromArgb(gray, gray, gray);
+            listBoxVoicepacks.BackColor = Color.FromArgb(gray, gray, gray);
         }
 
         private void listBox_DragEntered(object sender, DragEventArgs e)
@@ -93,7 +93,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             {
                 Console.WriteLine(file);
             }
-            _voicePackCombiner.AddVoicePacks(files.OfType<string>().ToList());
+            _voicepackCombiner.AddVoicepacks(files.OfType<string>().ToList());
         }
 
 
@@ -101,36 +101,36 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         /// TODO: this should not be in this class!!!
         /// Event handler called by timer to check if the voicepack currently in use was changed (not by the plugin)
         /// </summary>
-        void pollGlobalVoicePackChanged_timerElapsed(object sender, ElapsedEventArgs e)
+        void PollGlobalVoicepackChangedTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _voicePackCombiner.CheckCombinedVoicePackIsStillGlobal();
+            _voicepackCombiner.CheckCombinedVoicepackIsStillGlobal();
         }
         
 
         /// <summary>
         /// Event handler for when the voicepacklist of voicepacks to combine is empty or not, it will disable some controls
         /// </summary>
-        void VoicePackFiles_ListChanged(object sender, ListChangedEventArgs e)
+        void VoicepackFiles_ListChanged(object sender, ListChangedEventArgs e)
         {
             Contract.Requires(sender.GetType() == typeof(BindingList<FileInfo>));
 
-            Debug.WriteLine("VoicePackList changed event handler called");
+            Debug.WriteLine("VoicepackList changed event handler called");
 
-            UpdateGUIVoicePackListIsEmpty();
+            UpdateGUIVoicepackListIsEmpty();
         }
 
         /// <summary>
-        /// Helper function for VoicePackFiles_ListChanged, extracted method mainly so we can call it in constructor also when the list gets initialized by winforms' databinding.
+        /// Helper function for VoicepackFiles_ListChanged, extracted method mainly so we can call it in constructor also when the list gets initialized by winforms' databinding.
         /// Will change UI depending on if the list is empty or not
         /// </summary>
         /// <param name="listIsEmpty"></param>
-        void UpdateGUIVoicePackListIsEmpty()
+        void UpdateGUIVoicepackListIsEmpty()
         {
-            bool enableGUIControl = _voicePackCombiner.VoicePacksFilesToCombine.Any();
+            bool enableGUIControl = _voicepackCombiner.VoicepacksFilesToCombine.Any();
 
             btnRemoveSelected.Enabled = enableGUIControl;
-            checkBoxEnableCombinedVoicePack.Enabled = enableGUIControl;
-            btnExportCombinedVoicePack.Enabled = enableGUIControl;
+            checkBoxEnableCombinedVoicepack.Enabled = enableGUIControl;
+            btnExportCombinedVoicepack.Enabled = enableGUIControl;
         }
 
         void btnClose_Click(object sender, EventArgs e)
@@ -138,11 +138,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             this.Hide();
         }
 
-        void btnAddVoicePack_Click(object sender, EventArgs e)
+        void btnAddVoicepack_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog
             {
-                Title = "Add one or more Recursion Stat Tracker VoicePack files",
+                Title = "Add one or more Recursion Stat Tracker Voicepack files",
                 Filter = "(*"  + GlobalVariablesPS2.VOICEPACK_FILE_EXT + ")|*" + GlobalVariablesPS2.VOICEPACK_FILE_EXT,
                 RestoreDirectory = true,
                 Multiselect = true,
@@ -152,14 +152,14 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             if (openFileDialog.ShowDialog() != DialogResult.OK) 
                 return;
 
-            _voicePackCombiner.AddVoicePacks(new List<string>(openFileDialog.FileNames));
+            _voicepackCombiner.AddVoicepacks(new List<string>(openFileDialog.FileNames));
         }
 
         void btnRemoveSelected_Click(object sender, EventArgs e)
         {
             //Make copy of selectedItems list, as it changes when we remove items
-            var itemsToRemove = new List<FileInfo>(listBoxVoicePacks.SelectedItems.OfType<FileInfo>().ToList());
-            _voicePackCombiner.RemoveVoicePacks(itemsToRemove);
+            var itemsToRemove = new List<FileInfo>(listBoxVoicepacks.SelectedItems.OfType<FileInfo>().ToList());
+            _voicepackCombiner.RemoveVoicepacks(itemsToRemove);
         }
 
         /// <summary>
@@ -190,12 +190,12 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
 
         }
 
-        void checkBoxEnableCombinedVoicePack_CheckedChanged(object sender, EventArgs e)
+        void checkBoxEnableCombinedVoicepack_CheckedChanged(object sender, EventArgs e)
         {
             Debug.WriteLine("checkbox clicked, status: " + ((CheckBox)sender).Checked);
         }
 
-        void btnExportCombinedVoicePack_Click(object sender, EventArgs e)
+        void btnExportCombinedVoicepack_Click(object sender, EventArgs e)
         {
             var saveFileDialog = new SaveFileDialog
             {
@@ -208,7 +208,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             if (saveFileDialog.ShowDialog() != DialogResult.OK) 
                 return;
 
-            _voicePackCombiner.CombinedVoicePack.ExportToFile(saveFileDialog.FileName);
+            _voicepackCombiner.CombinedVoicepack.ExportToFile(saveFileDialog.FileName);
         }
     }
 }

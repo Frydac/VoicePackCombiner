@@ -91,9 +91,9 @@
       <Project>{10afc347-a135-4cb8-8d2a-fca7faff7a56}</Project>
       <Name>RTPluginPS2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\VoicePackCombiner\VoicePackCombiner.csproj">
+    <ProjectReference Include="..\..\VoicePackCombiner\VoicepackCombiner.csproj">
       <Project>{c047f356-a412-4ec5-a7cb-09168bfe47b0}</Project>
-      <Name>VoicePackCombiner</Name>
+      <Name>VoicepackCombiner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

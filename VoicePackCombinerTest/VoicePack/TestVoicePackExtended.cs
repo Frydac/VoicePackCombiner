@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RecursionTracker.Plugins.PlanetSide2;
-using RecursionTracker.Plugins.VoicePackCombiner;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
+using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
+using RecursionTracker.Plugins.VoicepackCombiner;
+using RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest.VoicePack
 {
 
 
@@ -14,17 +14,17 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void InitializeToDefaultTest()
         {
-            var testPack = new VoicePackExtended();
-            Assert.IsFalse(testPack.IsValidVoicePackLoaded());
+            var testPack = new VoicepackExtended();
+            Assert.IsFalse(testPack.IsValidVoicepackLoaded());
 
             testPack.InitializeToDefault();
-            Assert.IsTrue(testPack.IsValidVoicePackLoaded());
+            Assert.IsTrue(testPack.IsValidVoicepackLoaded());
         }
 
         [TestMethod, TestCategory("Test With File Access")]
         public void LoadFromFileReturnValueTest()
         {
-            var a = new VoicePackExtended();
+            var a = new VoicepackExtended();
             Assert.IsFalse(a.LoadFromFile("not a file"));
 
             //Cant run this as it generates an exception that is caught before my code can catch it
@@ -39,17 +39,17 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void IsValidVoicePackLoadedTest()
         {
-            //IsValidVoicePackLoaded() is partially implicitly tested by LoadFromFileReturnValueTest
-            var a = new VoicePackExtended();
-            Assert.IsFalse(a.IsValidVoicePackLoaded());
+            //IsValidVoicepackLoaded() is partially implicitly tested by LoadFromFileReturnValueTest
+            var a = new VoicepackExtended();
+            Assert.IsFalse(a.IsValidVoicepackLoaded());
         }
 
         //TODO: move or delete
         [TestMethod, TestCategory("Test With File Access")]
         public void MergeTest()
         {
-            var testPack1 = new VoicePackExtended();
-            var testPack2 = new VoicePackExtended();
+            var testPack1 = new VoicepackExtended();
+            var testPack2 = new VoicepackExtended();
 
             //Load default soundsqw (this code uses global data that doesn't exist while running tests)
             //testPack1.InitializeToDefault();
@@ -61,11 +61,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             testPack1.LoadFromFile(TestData.Pack1);
             testPack2.LoadFromFile(TestData.Pack2);
 
-            //var testPack2Ex = new VoicePackExtended();
+            //var testPack2Ex = new VoicepackExtended();
             //testPack2Ex.LoadFromFile(TestData.Pack2andExtraSound);
 
             testPack1.Merge(testPack2);
-            var combinedPack = new VoicePackExtended();
+            var combinedPack = new VoicepackExtended();
             combinedPack.LoadFromFile(TestData.Pack1and2);
 
             //doesnt work anymore, as my testdata is not 100% valid

@@ -1,4 +1,4 @@
-﻿namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
+﻿namespace RecursionTracker.Plugins.VoicepackCombiner.GUI
 {
     partial class DebugForm
     {
@@ -28,42 +28,42 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnPrintGlobalVoicePack = new System.Windows.Forms.Button();
-            this.btnPrintCombinedVoicePack = new System.Windows.Forms.Button();
-            this.btnPrintBackupVoicePack = new System.Windows.Forms.Button();
+            this.btnPrintGlobalVoicepack = new System.Windows.Forms.Button();
+            this.btnPrintCombinedVoicepack = new System.Windows.Forms.Button();
+            this.btnPrintBackupVoicepack = new System.Windows.Forms.Button();
             this.txtBoxDebugInfo = new System.Windows.Forms.RichTextBox();
             this.btnClearTxtBox = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // btnPrintGlobalVoicePack
+            // btnPrintGlobalVoicepack
             // 
-            this.btnPrintGlobalVoicePack.Location = new System.Drawing.Point(12, 12);
-            this.btnPrintGlobalVoicePack.Name = "btnPrintGlobalVoicePack";
-            this.btnPrintGlobalVoicePack.Size = new System.Drawing.Size(166, 23);
-            this.btnPrintGlobalVoicePack.TabIndex = 0;
-            this.btnPrintGlobalVoicePack.Text = "Print Global Voicepack";
-            this.btnPrintGlobalVoicePack.UseVisualStyleBackColor = true;
-            this.btnPrintGlobalVoicePack.Click += new System.EventHandler(this.btnPrintGlobalVoicePack_Click);
+            this.btnPrintGlobalVoicepack.Location = new System.Drawing.Point(12, 12);
+            this.btnPrintGlobalVoicepack.Name = "btnPrintGlobalVoicepack";
+            this.btnPrintGlobalVoicepack.Size = new System.Drawing.Size(166, 23);
+            this.btnPrintGlobalVoicepack.TabIndex = 0;
+            this.btnPrintGlobalVoicepack.Text = "Print Global Voicepack";
+            this.btnPrintGlobalVoicepack.UseVisualStyleBackColor = true;
+            this.btnPrintGlobalVoicepack.Click += new System.EventHandler(this.btnPrintGlobalVoicepack_Click);
             // 
-            // btnPrintCombinedVoicePack
+            // btnPrintCombinedVoicepack
             // 
-            this.btnPrintCombinedVoicePack.Location = new System.Drawing.Point(12, 41);
-            this.btnPrintCombinedVoicePack.Name = "btnPrintCombinedVoicePack";
-            this.btnPrintCombinedVoicePack.Size = new System.Drawing.Size(166, 23);
-            this.btnPrintCombinedVoicePack.TabIndex = 0;
-            this.btnPrintCombinedVoicePack.Text = "Print Combined Voicepack";
-            this.btnPrintCombinedVoicePack.UseVisualStyleBackColor = true;
-            this.btnPrintCombinedVoicePack.Click += new System.EventHandler(this.btnPrintCombinedVoicePack_Click);
+            this.btnPrintCombinedVoicepack.Location = new System.Drawing.Point(12, 41);
+            this.btnPrintCombinedVoicepack.Name = "btnPrintCombinedVoicepack";
+            this.btnPrintCombinedVoicepack.Size = new System.Drawing.Size(166, 23);
+            this.btnPrintCombinedVoicepack.TabIndex = 0;
+            this.btnPrintCombinedVoicepack.Text = "Print Combined Voicepack";
+            this.btnPrintCombinedVoicepack.UseVisualStyleBackColor = true;
+            this.btnPrintCombinedVoicepack.Click += new System.EventHandler(this.btnPrintCombinedVoicepack_Click);
             // 
-            // btnPrintBackupVoicePack
+            // btnPrintBackupVoicepack
             // 
-            this.btnPrintBackupVoicePack.Location = new System.Drawing.Point(12, 70);
-            this.btnPrintBackupVoicePack.Name = "btnPrintBackupVoicePack";
-            this.btnPrintBackupVoicePack.Size = new System.Drawing.Size(166, 23);
-            this.btnPrintBackupVoicePack.TabIndex = 0;
-            this.btnPrintBackupVoicePack.Text = "Print Backup VoicePack";
-            this.btnPrintBackupVoicePack.UseVisualStyleBackColor = true;
-            this.btnPrintBackupVoicePack.Click += new System.EventHandler(this.btnPrintBackupVoicePack_Click);
+            this.btnPrintBackupVoicepack.Location = new System.Drawing.Point(12, 70);
+            this.btnPrintBackupVoicepack.Name = "btnPrintBackupVoicepack";
+            this.btnPrintBackupVoicepack.Size = new System.Drawing.Size(166, 23);
+            this.btnPrintBackupVoicepack.TabIndex = 0;
+            this.btnPrintBackupVoicepack.Text = "Print Backup Voicepack";
+            this.btnPrintBackupVoicepack.UseVisualStyleBackColor = true;
+            this.btnPrintBackupVoicepack.Click += new System.EventHandler(this.btnPrintBackupVoicepack_Click);
             // 
             // txtBoxDebugInfo
             // 
@@ -98,9 +98,9 @@
             this.ClientSize = new System.Drawing.Size(1031, 590);
             this.Controls.Add(this.btnClearTxtBox);
             this.Controls.Add(this.txtBoxDebugInfo);
-            this.Controls.Add(this.btnPrintBackupVoicePack);
-            this.Controls.Add(this.btnPrintCombinedVoicePack);
-            this.Controls.Add(this.btnPrintGlobalVoicePack);
+            this.Controls.Add(this.btnPrintBackupVoicepack);
+            this.Controls.Add(this.btnPrintCombinedVoicepack);
+            this.Controls.Add(this.btnPrintGlobalVoicepack);
             this.Name = "DebugForm";
             this.Text = "DebugForm";
             this.ResumeLayout(false);
@@ -109,9 +109,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnPrintGlobalVoicePack;
-        private System.Windows.Forms.Button btnPrintCombinedVoicePack;
-        private System.Windows.Forms.Button btnPrintBackupVoicePack;
+        private System.Windows.Forms.Button btnPrintGlobalVoicepack;
+        private System.Windows.Forms.Button btnPrintCombinedVoicepack;
+        private System.Windows.Forms.Button btnPrintBackupVoicepack;
         private System.Windows.Forms.RichTextBox txtBoxDebugInfo;
         private System.Windows.Forms.Button btnClearTxtBox;
     }

@@ -1,12 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RecursionTracker.Plugins.VoicePackCombiner;
+using RecursionTracker.Plugins.VoicepackCombiner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest
 {
     [TestClass()]
     public class VoicePackCombinerTest

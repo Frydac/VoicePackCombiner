@@ -1,19 +1,19 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest;
-using RecursionTracker.Plugins.VoicePackCombiner.VoicePack;
+using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
+using RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest;
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.VoicePack
+namespace RecursionTracker.Plugins.VoicepackCombiner.VoicePackCombinerTest.VoicePack
 {
     /// <summary>
-    /// Tests through VoicePackExtended rather than VoicePackComparer as it started there, but then 
-    /// got delegated to VoicePackComparer which is also tested through these tests. (not sure what
+    /// Tests through VoicepackExtended rather than VoicepackComparer as it started there, but then 
+    /// got delegated to VoicepackComparer which is also tested through these tests. (not sure what
     /// the best practices are in this case)
     /// </summary>
     [TestClass]
     public class EqualComponentInfoTest
     {
-        readonly VoicePackExtended _testPack1 = new VoicePackExtended();
-        readonly VoicePackExtended _testPack2 = new VoicePackExtended();
+        readonly VoicepackExtended _testPack1 = new VoicepackExtended();
+        readonly VoicepackExtended _testPack2 = new VoicepackExtended();
 
         [TestMethod]
         public void NullVoicePacksHaveEqualComponentInformation()
@@ -32,9 +32,9 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         public void IdenticalSampleVoicePacksHaveEqualComponentInformation()
         {
             _testPack1.InitializeToDefault();
-            _testPack1.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
+            _testPack1.Voicepack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
             _testPack2.InitializeToDefault();
-            _testPack2.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
+            _testPack2.Voicepack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
 
             Assert.IsTrue(_testPack1.EqualComponentInfo(_testPack2));
         }
@@ -43,10 +43,10 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         public void SlightlyDifferentSampleVoicePacksDontHaveEqualComponentInformation()
         {
             _testPack1.InitializeToDefault();
-            _testPack1.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
+            _testPack1.Voicepack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
             _testPack2.InitializeToDefault();
-            _testPack2.VoicePack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
-            _testPack2.VoicePack.componentInformation.author = "Someone Else";
+            _testPack2.Voicepack.componentInformation = VoicePackSampleCreator.CreateSampleCompInfo();
+            _testPack2.Voicepack.componentInformation.author = "Someone Else";
             
             Assert.IsFalse(_testPack1.EqualComponentInfo(_testPack2));
         }
@@ -54,8 +54,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestCategory("Test With File Access"), TestMethod]
         public void TestsWithVoicePackFiles()
         {
-            var testPack1 = new VoicePackExtended();
-            var testPack2 = new VoicePackExtended();
+            var testPack1 = new VoicepackExtended();
+            var testPack2 = new VoicepackExtended();
 
             testPack1.LoadFromFile(TestData.Pack1);
             testPack2.LoadFromFile(TestData.Pack1);
@@ -70,15 +70,15 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
     }
 
     /// <summary>
-    /// Tests through VoicePackExtended rather than VoicePackComparer as it started there, but then 
-    /// got delegated to VoicePackComparer which is also tested through these tests. In voicepackcomparer this is called
+    /// Tests through VoicepackExtended rather than VoicepackComparer as it started there, but then 
+    /// got delegated to VoicepackComparer which is also tested through these tests. In voicepackcomparer this is called
     /// EqualAchievementList 
     /// </summary>
     [TestClass]
     public class EqualSoundFileNamesTest
     {
-        readonly VoicePackExtended _testPack1 = new VoicePackExtended();
-        readonly VoicePackExtended _testPack2 = new VoicePackExtended();
+        readonly VoicepackExtended _testPack1 = new VoicepackExtended();
+        readonly VoicepackExtended _testPack2 = new VoicepackExtended();
 
         [TestMethod]
         public void NullVoicePacksHaveEqualSoundFileNames()
@@ -108,7 +108,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         {
             var samplePack1 = VoicePackSampleCreator.Create();
             var samplePack2 = VoicePackSampleCreator.Create();
-            samplePack2.VoicePack.groupManager.achievementList[VoicePackSampleCreator.SampleAchievements[1]]
+            samplePack2.Voicepack.groupManager.achievementList[VoicePackSampleCreator.SampleAchievements[1]]
                 .dynamicSounds.sounds[0].pakSoundFile = "different sound filename";
 
             Assert.IsFalse(samplePack2.EqualSoundFilenames(samplePack1));
@@ -117,8 +117,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestCategory("Test With File Access"), TestMethod]
         public void TestsWithVoicePacksfromFile()
         {
-            var k = new VoicePackExtended();
-            var l = new VoicePackExtended();
+            var k = new VoicepackExtended();
+            var l = new VoicepackExtended();
 
             k.LoadFromFile(TestData.Pack1);
             l.LoadFromFile(TestData.Pack1);
@@ -143,19 +143,19 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void NullComponentDataIsEqual()
         {
-            Assert.IsTrue(VoicePackComparer.EqualComponentData(null, null));
+            Assert.IsTrue(VoicepackComparer.EqualComponentData(null, null));
         }
 
         [TestMethod]
         public void NullAndEmptyDataDictAreNotEqual()
         {
-            Assert.IsFalse(VoicePackComparer.EqualComponentData(null, _compData1));
+            Assert.IsFalse(VoicepackComparer.EqualComponentData(null, _compData1));
         }
 
         [TestMethod]
         public void EmptyComponentDataDictsAreEqual()
         {
-            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsTrue(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         {
             _compData1["key"] = new ComponentData();
 
-            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsFalse(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             _compData1["key"] = new ComponentData();
             _compData2["otherKey"] = new ComponentData();
 
-            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsFalse(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             _compData1["key"] = new ComponentData();
             _compData2["key"] = new ComponentData();
 
-            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsTrue(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
 
         [TestMethod]
@@ -191,7 +191,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             _compData1["key"] = new ComponentData() {data = new byte[dataItemsSize]};
             _compData2["key"] = new ComponentData() {data = new byte[dataItemsSize + 1]};
 
-            Assert.IsFalse(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsFalse(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
 
         [TestMethod]
@@ -201,7 +201,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             _compData1["key"] = new ComponentData() {data = new byte[dataItemsSize]};
             _compData2["key"] = new ComponentData() {data = new byte[dataItemsSize]};
 
-            Assert.IsTrue(VoicePackComparer.EqualComponentData(_compData1, _compData2));
+            Assert.IsTrue(VoicepackComparer.EqualComponentData(_compData1, _compData2));
         }
     }
 }

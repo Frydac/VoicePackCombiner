@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("VoicePackCombiner")]
+[assembly: AssemblyTitle("VoicepackCombiner")]
 [assembly: AssemblyDescription("Plugin for the Recursion Real Time Stat Tracker for using multiple voicepacks at the same time")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Emile Vrijdags (aka Frydac)")]
-[assembly: AssemblyProduct("VoicePackCombiner")]
+[assembly: AssemblyProduct("VoicepackCombiner")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

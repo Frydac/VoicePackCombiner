@@ -9,7 +9,7 @@ using System.Diagnostics;
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Properties.Annotations
+namespace RecursionTracker.Plugins.VoicepackCombiner.Properties.Annotations
 {
   /// <summary>
   /// Indicates that the value of the marked element could be <c>null</c> sometimes,

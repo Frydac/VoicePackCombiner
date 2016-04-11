@@ -1,39 +1,40 @@
 ﻿using System;
 using System.Diagnostics;
-using RecursionTracker.Plugins.VoicePackCombiner.GUI;
+using RecursionTracker.Plugins.VoicepackCombiner.GUI;
+
 #if DEBUG
 using System.IO;
 using System.Runtime.InteropServices;
 #endif
 
-namespace RecursionTracker.Plugins.VoicePackCombiner
+namespace RecursionTracker.Plugins.VoicepackCombiner
 {
     /// <summary>
     /// This class is used by the host/main program to use the plugin.
     /// It also serves as a manager class, i.e owner of the main model and view classes
-    /// When the main form loads, it inserts a menuitem to be able to start the VoicePackCombinerForm
+    /// When the main form loads, it inserts a menuitem to be able to start the VoicepackCombinerForm
     /// </summary>
-    public class VoicePackCombinerPlugin : PluginBase
+    public class VoicepackCombinerPlugin : PluginBase
     {
-        readonly public VoicePackCombiner VoicePackCombiner = new VoicePackCombiner();
-        public VoicePackCombinerForm VoicePackCombinerForm;
-        private VoicePackCombinerMenuItems _voicePackCombinerMenuItems;
+        readonly public VoicepackCombiner VoicepackCombiner = new VoicepackCombiner();
+        public VoicepackCombinerForm VoicepackCombinerForm;
+        private VoicepackCombinerMenuItems _voicepackCombinerMenuItems;
 
 #if DEBUG
         private readonly DebugHelpers _debugHelpers;
 #endif
 
-        public VoicePackCombinerPlugin()
+        public VoicepackCombinerPlugin()
         {
-            Debug.WriteLine("VoicePackCombinerPlugin Construction");
+            Debug.WriteLine("VoicepackCombinerPlugin Constructor Called");
 
             m_pluginInformation = new PluginInformation(
-                "Voice Pack Combiner",
-                "Load multiple voice packs simultaniously",
+                "Voicepack Combiner",
+                "Load multiple voicepacks simultaniously",
                 "Emile Vrijdags (aka Frydac)",
                 null);
 #if DEBUG
-            _debugHelpers = new DebugHelpers(VoicePackCombiner);
+            _debugHelpers = new DebugHelpers(VoicepackCombiner);
 #endif
         }
 
@@ -47,17 +48,17 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
             base.OnMainFormLoad();
             Debug.WriteLine("OnMainFormLoad called");
 
-            CreateVoicePackCombinerMenuItemsInMainGui();
+            CreateVoicepackCombinerMenuItemsInMainGui();
 #if DEBUG
             _debugHelpers.ShowDebugForm();
 #endif
         }
 
-        private void CreateVoicePackCombinerMenuItemsInMainGui()
+        private void CreateVoicepackCombinerMenuItemsInMainGui()
         {
             string parentMenuItemName = "modsToolStripMenuItem";
-            _voicePackCombinerMenuItems = new VoicePackCombinerMenuItems(parentMenuItemName,
-                VoicePackCombiner, VoicePackCombinerForm, m_core.GetMainForm());
+            _voicepackCombinerMenuItems = new VoicepackCombinerMenuItems(parentMenuItemName,
+                VoicepackCombiner, VoicepackCombinerForm, m_core.GetMainForm());
             Debug.WriteLine("After inserting voicepackcombiner menu items");
         }
     }
@@ -83,11 +84,11 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         [DllImport("kernel32.dll")]
         private static extern int FreeConsole();
 
-        private VoicePackCombiner _voicePackCombiner;
+        private VoicepackCombiner _voicepackCombiner;
 
-        internal DebugHelpers(VoicePackCombiner voicePackCombiner)
+        internal DebugHelpers(VoicepackCombiner VoicepackCombiner)
         {
-            _voicePackCombiner = voicePackCombiner;
+            _voicepackCombiner = VoicepackCombiner;
             ShowCmdConsoleWindow();
             SetDebugOutputToConsole();
         }
@@ -112,7 +113,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         {
             if(_debugForm==null || !_debugForm.Visible)
             { 
-                _debugForm = new DebugForm(_voicePackCombiner);
+                _debugForm = new DebugForm(_voicepackCombiner);
                 _debugForm.Show();
             }
         }

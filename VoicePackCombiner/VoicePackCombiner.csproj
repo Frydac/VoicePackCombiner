@@ -41,7 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="VoicePack\VoicePackExtended.cs" />
+    <Compile Include="Voicepack\VoicePackExtended.cs" />
     <Compile Include="GUI\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,8 +63,8 @@
     </Compile>
     <Compile Include="GUI\VoicePackCombinerMenuItems.cs" />
     <Compile Include="VoicePackCombinerPlugin.cs" />
-    <Compile Include="VoicePack\VoicePackComparer.cs" />
-    <Compile Include="VoicePack\VoicePackMerger.cs" />
+    <Compile Include="Voicepack\VoicePackComparer.cs" />
+    <Compile Include="Voicepack\VoicePackMerger.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\DebugForm.resx">
@@ -79,6 +79,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Properties\VoicePackCombiner.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>VoicePackCombiner.Designer.cs</LastGenOutput>
@@ -105,6 +106,9 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y $(TargetPath) $(SolutionDir)\Build</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
