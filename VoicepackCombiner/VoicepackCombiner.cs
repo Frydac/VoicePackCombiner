@@ -140,7 +140,8 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         }
 
         /// <summary>
-        /// Adds and merges in the list of filenames into the current voicepak list.
+        /// Adds the list of filenames into the current voicepak list, and merges them
+        /// into the CombinedVoicepack.
         /// </summary>
         public void AddVoicepacks(List<string> filenames)
         {
@@ -185,8 +186,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             CombinedVoicepack.InitializeToDefault();
 
             List<FileInfo> invalidFilesToRemove = new List<FileInfo>();
-
-            foreach (var voicePackFile in VoicepacksFilesToCombine.Skip(1))
+            foreach (var voicePackFile in VoicepacksFilesToCombine)
             {
                 if(!CombinedVoicepack.Merge(voicePackFile.FullName))
                     invalidFilesToRemove.Add(voicePackFile);
