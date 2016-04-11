@@ -3,7 +3,7 @@
 	
 Voicepack Combiner is a [mod] for the [Recursion Real Time Stat Tracker] (RTST) which allowes the user to load multiple [voicepacks] at the same time.
 
-![VoicepackCombinerGUI](https://github.com/Frydac/VoicepackCombiner/tree/master/VoicePackCombiner/Resources/VoicepackCombinerGUI.png)
+![VoicepackCombinerGUI](VoicePackCombiner/Resources/VoicepackCombinerGUI.png)
 
 [mod]: <https://recursion.tk/forumdisplay.php?50-Mods>
 [voicepacks]: <https://recursion.tk/forumdisplay.php?50-Mods>
