@@ -22,9 +22,6 @@ Click the "Add VoicePacks" button, and select one or more voicepacks. Or drag an
 The combined voicepack can be loaded/unloaded by clicking the "Use Combined VoicePack" checkbox in the VoicePackCombiner window, 
 or by clicking the corresponding menu item under Mods->VoicePackCombiner->Use Combined VoicePack.
 
-The combined voicepack can be exported as a new single voicepack by clicking the "Export Combined VoicePack" button on the VoicePackCombiner window.
-
-
 All the voicepacks in the list will be combined to one voicepack. 
 For each achievement, all the sounds for that achievement from each voicepack will be grouped. 
 When an achievement is triggered, Recursion RTST will randomly play one of the grouped sounds for that achievment.
@@ -33,6 +30,8 @@ When the combined voicepack is in use, it can be edited like a normal voicepack 
 Note that when you add or remove a voicepack, the combined voicepack will be recombined and any changes will be overwritten.
 If you which to alter anything, do that right before you publish/export the voicepack. Then newly exported voicepack can then again be used
 to combine with more voicepacks.
+
+The combined voicepack can be exported as a new single voicepack by clicking the "Export Combined VoicePack" button on the VoicePackCombiner window.
 
 Have fun!
 
