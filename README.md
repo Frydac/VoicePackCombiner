@@ -1,9 +1,11 @@
 # Voicepack Combiner
 ## Introduction
 	
-_Voicepack Combiner_ is a [mod] for the [Recursion Real Time Stat Tracker] which allowes the user to load multiple [voicepacks] at the same time.
+Voicepack Combiner is a [mod] for the [Recursion Real Time Stat Tracker] (RTST) which allowes the user to load multiple [voicepacks] at the same time.
 
-[mod]: <http://link_to_mod_forum_post>
+![VoicepackCombinerGUI](https://github.com/Frydac/VoicepackCombiner/tree/master/VoicePackCombiner/Resources/VoicepackCombinerGUI.png)
+
+[mod]: <https://recursion.tk/forumdisplay.php?50-Mods>
 [voicepacks]: <https://recursion.tk/forumdisplay.php?50-Mods>
 [Recursion Real Time Stat Tracker]: <https://recursiontracker.com/>
 
@@ -14,7 +16,7 @@ If the modmanager is not showing,
 move your mouse to the left side of the window and click in the highlighted region with the arrow.
 
 ## Usage
-When the _Voicepack Combiner_ mod is loaded, a few menu items are added to the main window under _"Mods"_.  
+When the Voicepack Combiner mod is loaded, a few menu items are added to the main window under _"Mods"_.  
 
   
 Click Mods->VoicePackCombiner->Settings to open the VoicePackCombiner window, here you can add voicepacks to the list.
