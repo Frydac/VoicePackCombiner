@@ -185,9 +185,9 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.GUI
             e.DrawFocusRectangle();
         }
 
-        void toolStripMenuItem1_Click(object sender, EventArgs e)
+        void UsageGuideMenuItem_Click(object sender, EventArgs e)
         {
-
+            System.Diagnostics.Process.Start("https://github.com/Frydac/VoicepackCombiner");
         }
 
         void checkBoxEnableCombinedVoicepack_CheckedChanged(object sender, EventArgs e)
@@ -195,7 +195,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.GUI
             Debug.WriteLine("checkbox clicked, status: " + ((CheckBox)sender).Checked);
         }
 
-        void btnExportCombinedVoicepack_Click(object sender, EventArgs e)
+        void ExportCombinedVoicepack_Click(object sender, EventArgs e)
         {
             var saveFileDialog = new SaveFileDialog
             {

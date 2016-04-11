@@ -31,7 +31,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addVoicepackToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ExportCombinedVoicePackMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +63,7 @@
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addVoicepackToolStripMenuItem,
-            this.toolStripMenuItem1,
+            this.ExportCombinedVoicePackMenuItem,
             this.toolStripSeparator1,
             this.closeToolStripMenuItem});
             this.fileToolStripMenuItem.ForeColor = System.Drawing.Color.LightGray;
@@ -74,30 +74,29 @@
             // addVoicepackToolStripMenuItem
             // 
             this.addVoicepackToolStripMenuItem.ForeColor = System.Drawing.Color.LightGray;
-            this.addVoicepackToolStripMenuItem.Image = global::RecursionTracker.Plugins.VoicepackCombiner.Properties.Resources._077_AddFile_16x16_72;
             this.addVoicepackToolStripMenuItem.Name = "addVoicepackToolStripMenuItem";
-            this.addVoicepackToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.addVoicepackToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.addVoicepackToolStripMenuItem.Text = "Add Voicepacks...";
             this.addVoicepackToolStripMenuItem.Click += new System.EventHandler(this.btnAddVoicepack_Click);
             // 
-            // toolStripMenuItem1
+            // ExportCombinedVoicePackMenuItem
             // 
-            this.toolStripMenuItem1.ForeColor = System.Drawing.Color.LightGray;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(234, 22);
-            this.toolStripMenuItem1.Text = "Export Combined Voicepack...";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.ExportCombinedVoicePackMenuItem.ForeColor = System.Drawing.Color.LightGray;
+            this.ExportCombinedVoicePackMenuItem.Name = "ExportCombinedVoicePackMenuItem";
+            this.ExportCombinedVoicePackMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.ExportCombinedVoicePackMenuItem.Text = "Export Combined Voicepack...";
+            this.ExportCombinedVoicePackMenuItem.Click += new System.EventHandler(this.ExportCombinedVoicepack_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(231, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(228, 6);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.ForeColor = System.Drawing.Color.LightGray;
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(234, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -115,14 +114,15 @@
             // 
             this.tutorialToolStripMenuItem.ForeColor = System.Drawing.Color.LightGray;
             this.tutorialToolStripMenuItem.Name = "tutorialToolStripMenuItem";
-            this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
-            this.tutorialToolStripMenuItem.Text = "Tutorial";
+            this.tutorialToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tutorialToolStripMenuItem.Text = "Usage Guide";
+            this.tutorialToolStripMenuItem.Click += new System.EventHandler(this.UsageGuideMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.ForeColor = System.Drawing.Color.LightGray;
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
             // btnClose
@@ -186,7 +186,7 @@
             this.btnExportCombinedVoicepack.Text = "Export Combined Voicepack...";
             this.btnExportCombinedVoicepack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnExportCombinedVoicepack.UseVisualStyleBackColor = false;
-            this.btnExportCombinedVoicepack.Click += new System.EventHandler(this.btnExportCombinedVoicepack_Click);
+            this.btnExportCombinedVoicepack.Click += new System.EventHandler(this.ExportCombinedVoicepack_Click);
             // 
             // btnRemoveSelected
             // 
@@ -194,7 +194,6 @@
             this.btnRemoveSelected.BackColor = System.Drawing.Color.Gray;
             this.btnRemoveSelected.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveSelected.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRemoveSelected.Image = global::RecursionTracker.Plugins.VoicepackCombiner.Properties.Resources.action_Cancel_16xMD;
             this.btnRemoveSelected.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRemoveSelected.Location = new System.Drawing.Point(151, 37);
             this.btnRemoveSelected.Name = "btnRemoveSelected";
@@ -211,7 +210,6 @@
             this.btnAddVoicepack.BackColor = System.Drawing.Color.Gray;
             this.btnAddVoicepack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddVoicepack.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddVoicepack.Image = global::RecursionTracker.Plugins.VoicepackCombiner.Properties.Resources._077_AddFile_16x16_72;
             this.btnAddVoicepack.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAddVoicepack.Location = new System.Drawing.Point(14, 37);
             this.btnAddVoicepack.Name = "btnAddVoicepack";
@@ -262,7 +260,7 @@
         private System.Windows.Forms.Button btnRemoveSelected;
         private System.Windows.Forms.CheckBox checkBoxEnableCombinedVoicepack;
         private System.Windows.Forms.Button btnExportCombinedVoicepack;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem ExportCombinedVoicePackMenuItem;
 
     }
 }
