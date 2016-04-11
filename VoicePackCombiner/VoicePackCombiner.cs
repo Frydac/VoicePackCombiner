@@ -122,7 +122,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// <summary>
         /// Save the current list of voicepacks to combine to the user settings file
         /// </summary>
-        void SaveVoicePackFileListToSettings()
+        void SaveVoicePackFilesToCombineToSettings()
         {
             Properties.VoicePackCombiner.Default.VoicePackFileList = new StringCollection();
             var voicePackSettings = Properties.VoicePackCombiner.Default.VoicePackFileList;
@@ -144,21 +144,19 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// </summary>
         public void AddVoicePacks(List<string> filenames)
         {
+            if (!VoicePacksFilesToCombine.Any())
+            {
+                CombinedVoicePack = new VoicePackExtended();
+                CombinedVoicePack.InitializeToDefault();
+            }
+
             foreach (var filename in filenames)
             {
-                bool loadSuccess = false;
-
-                if (!VoicePacksFilesToCombine.Any())
-                    loadSuccess = CombinedVoicePack.LoadFromFile(filename);
-                else
-                    loadSuccess = CombinedVoicePack.Merge(filename);
-
-                if (loadSuccess)
+                if (CombinedVoicePack.Merge(filename))
                     VoicePacksFilesToCombine.Add(new FileInfo(filename));
-                else
-                    MessageBox.Show($"Failed to load: {filename}\nRemoved from the list of voice packs to combine.");
             }
-            SaveVoicePackFileListToSettings();
+
+            SaveVoicePackFilesToCombineToSettings();
         }
 
         /// <summary>
@@ -166,7 +164,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// </summary>
         /// <remarks>
         /// In stead of actually removing, I just recreate the combined voicepack from the updated list.
-        /// My initial tests seem to indicate this is a pretty fast operation and seems stable. 
+        /// My initial tests seem to indicate this is a fast enough operation and seems stable. 
         /// To actually create a real remove, much work is needed.
         /// </remarks>
         public void RemoveVoicePacks(List<FileInfo> files)
@@ -175,24 +173,19 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
 
             RecombineVoicePackFilesToCombine();
 
-            SaveVoicePackFileListToSettings();
+            SaveVoicePackFilesToCombineToSettings();
         }
 
         /// <summary>
-        /// Rebuilds _combinedAchievementOptions from the VoicePacksFilesToCombine list
-        /// It rereads the voicepacks from file, so checks if they still load and removes from list when necessary
-        ///  </summary>
+        /// Rebuilds CombinedVoicePack from the VoicePacksFilesToCombine list
+        /// </summary>
         private void RecombineVoicePackFilesToCombine()
         {
-            if (!VoicePacksFilesToCombine.Any())
-            {
-                CombinedVoicePack.VoicePack = null;
-                return;
-            }
-
             CombinedVoicePack = new VoicePackExtended();
-            CombinedVoicePack.LoadFromFile(VoicePacksFilesToCombine[0].FullName);
+            CombinedVoicePack.InitializeToDefault();
+
             List<FileInfo> invalidFilesToRemove = new List<FileInfo>();
+
             foreach (var voicePackFile in VoicePacksFilesToCombine.Skip(1))
             {
                 if(!CombinedVoicePack.Merge(voicePackFile.FullName))
@@ -213,19 +206,6 @@ namespace RecursionTracker.Plugins.VoicePackCombiner
         /// </summary>
         public void CheckCombinedVoicePackIsStillGlobal()
         {
-            //if (!UseCombinedVoicePack) return false;
-
-            //if (CombinedVoicePack.IsGlobal())
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    GlobalVoicePackBackup.GetFromGlobal();  
-            //    UseCombinedVoicePack = false;
-            //    return true;
-            //}
-
             if (UseCombinedVoicePack && !CombinedVoicePack.IsGlobal())
             {
                 UseCombinedVoicePack = false;
