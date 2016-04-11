@@ -361,9 +361,8 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
         [TestMethod]
         public void FindAndReplaceNewStyleDynamicSounsPath()
         {
-            pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions()
-                ccccccccccccccccccccccccccccccccccccccccccccccccccc
-                    { sounds = new BasicAchievementSound[2] } };
+            //pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions()
+            //        { sounds = new BasicAchievementSound[2] } };
         }
     }
 }

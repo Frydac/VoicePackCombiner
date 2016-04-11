@@ -211,27 +211,4 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
             _voicePackCombiner.CombinedVoicePack.ExportToFile(saveFileDialog.FileName);
         }
     }
-
-    //public class TestDataBinding : INotifyPropertyChanged
-    //{
-    //    bool _test = true;
-    //    public bool TestDataBindingProperty
-    //    {
-    //        get { return _test; }
-    //        set
-    //        {
-    //            Debug.WriteLine("testDataBindingProperty set() called with value: " + value);
-    //            _test = value;
-    //            OnPropertyChanged("TestDataBindingProperty");
-    //        }
-    //    }
-
-    //    public event PropertyChangedEventHandler PropertyChanged;
-
-    //    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    //    {
-    //        var handler = PropertyChanged;
-    //        if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-    //    }
-    //}
 }
