@@ -7,8 +7,8 @@
     <ProjectGuid>{C047F356-A412-4EC5-A7CB-09168BFE47B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RecursionTracker.Plugins.VoicePackCombiner</RootNamespace>
-    <AssemblyName>VoicePackCombiner</AssemblyName>
+    <RootNamespace>RecursionTracker.Plugins.VoicepackCombiner</RootNamespace>
+    <AssemblyName>VoicepackCombiner</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,12 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\VoicePackCombiner.Designer.cs">
+    <Compile Include="Properties\VoicepackCombiner.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>VoicePackCombiner.settings</DependentUpon>
+      <DependentUpon>VoicepackCombiner.settings</DependentUpon>
     </Compile>
-    <Compile Include="Voicepack\VoicePackExtended.cs" />
+    <Compile Include="Voicepack\VoicepackExtended.cs" />
     <Compile Include="GUI\DebugForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -56,20 +56,20 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs" />
-    <Compile Include="VoicePackCombiner.cs" />
-    <Compile Include="VoicePackCombiner.Designer.cs">
-      <DependentUpon>VoicePackCombiner.cs</DependentUpon>
+    <Compile Include="VoicepackCombiner.cs" />
+    <Compile Include="VoicepackCombiner.Designer.cs">
+      <DependentUpon>VoicepackCombiner.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\VoicePackCombinerForm.cs">
+    <Compile Include="GUI\VoicepackCombinerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\VoicePackCombinerForm.Designer.cs">
-      <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
+    <Compile Include="GUI\VoicepackCombinerForm.Designer.cs">
+      <DependentUpon>VoicepackCombinerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\VoicePackCombinerMenuItems.cs" />
-    <Compile Include="VoicePackCombinerPlugin.cs" />
-    <Compile Include="Voicepack\VoicePackComparer.cs" />
-    <Compile Include="Voicepack\VoicePackMerger.cs" />
+    <Compile Include="GUI\VoicepackCombinerMenuItems.cs" />
+    <Compile Include="VoicepackCombinerPlugin.cs" />
+    <Compile Include="Voicepack\VoicepackComparer.cs" />
+    <Compile Include="Voicepack\VoicepackMerger.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\DebugForm.resx">
@@ -79,14 +79,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\VoicePackCombinerForm.resx">
-      <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\VoicepackCombinerForm.resx">
+      <DependentUpon>VoicepackCombinerForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\VoicePackCombiner.settings">
+    <None Include="Properties\VoicepackCombiner.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>VoicePackCombiner.Designer.cs</LastGenOutput>
+      <LastGenOutput>VoicepackCombiner.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using RecursionTracker.Plugins.VoicepackCombiner.Properties.Annotations;
@@ -185,7 +182,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             CombinedVoicepack = new VoicepackExtended();
             CombinedVoicepack.InitializeToDefault();
 
-            List<FileInfo> invalidFilesToRemove = new List<FileInfo>();
+            var invalidFilesToRemove = new List<FileInfo>();
             foreach (var voicePackFile in VoicepacksFilesToCombine)
             {
                 if(!CombinedVoicepack.Merge(voicePackFile.FullName))
