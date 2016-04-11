@@ -111,9 +111,28 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.GUI
         {
             if (e.PropertyName ==  "UseCombinedVoicePack")
             {
-                _useCombinedVoicepackMenuItem.Checked = ((VoicePackCombiner) sender).UseCombinedVoicePack;
+                //_useCombinedVoicepackMenuItem.Checked = ((VoicePackCombiner) sender).UseCombinedVoicePack;
+                SetUseCombinedVoicePackMenuItemChecked(((VoicePackCombiner)sender).UseCombinedVoicePack);
             }
         }
+
+        /// <summary>
+        /// Helper function along the lines of:
+        /// https://msdn.microsoft.com/en-us/library/ms171728.aspx
+        /// As there is a timer (aka thread) that can alter UseCombinedVoicePack, this makes it threadsafe 
+        /// </summary>
+        private void SetUseCombinedVoicePackMenuItemChecked(bool check)
+        {
+            if (_useCombinedVoicepackMenuItem.GetCurrentParent().InvokeRequired)
+            {
+                var f = new SetUseCombinedVoicePackMenuItemCheckedCallback(SetUseCombinedVoicePackMenuItemChecked);
+                _useCombinedVoicepackMenuItem.GetCurrentParent().Invoke(f, new object[] {check});
+            }
+            else
+                _useCombinedVoicepackMenuItem.Checked = check;
+        }
+        //Callback declaration to Invoke by this thread
+        private delegate void SetUseCombinedVoicePackMenuItemCheckedCallback(bool check);
 
         /// <summary>
         /// Eventhandler that brings up the VoicePackCombinerForm
