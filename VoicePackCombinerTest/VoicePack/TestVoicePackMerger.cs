@@ -293,16 +293,16 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
             pack.LoadFromFile(TestData.VoicePackTheOffice);
 
             //Just find
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", null));
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", null));
 
             //Find and replace
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", "newstring"));
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", "newstring"));
 
             //Find replaced string, should not be found
-            Assert.IsFalse(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "HesDead.ogg_System.Byte", null));
+            Assert.IsFalse(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "HesDead.ogg_System.Byte", null));
 
             //Find new string, should be found
-            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndChange(pack, "newstring", null));
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, "newstring", null));
 
             //manually check the right place of the string
             //should be in HEADSHOT achievement, which is in place 0
@@ -316,5 +316,54 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest.Voice
 
         }
 
+    }
+
+    [TestClass]
+    public class TestFindPAKReferenceInVoicePackAndChangeIntegration
+    {
+        VoicePackExtended pack = new VoicePackExtended();
+        private const string findMe = "stringToFind";
+        private const string replaceWith = "stringToReplaceWith";
+        private const string key = "key";
+
+        [TestInitialize]
+        public void setup()
+        {
+            pack.InitializeToDefault();
+        }
+
+        [TestMethod]
+        public void FindPAKBackupImage()
+        {
+            pack.VoicePack.groupManager.pakBackgroundImage = findMe;
+
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe));
+        }
+
+        [TestMethod]
+        public void FindAndReplacePAKBackupImage()
+        {
+            pack.VoicePack.groupManager.pakBackgroundImage = findMe;
+
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe, replaceWith));
+            Assert.AreEqual(pack.VoicePack.groupManager.pakBackgroundImage, replaceWith);
+        }
+
+        [TestMethod]
+        public void FindAndReplaceOldStyleOneSoundPath()
+        {
+            pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions() {pakSoundPath = findMe};
+
+            Assert.IsTrue(VoicePackMerger.FindPAKreferenceInVoicePackAndReplace(pack, findMe, replaceWith));
+            Assert.AreEqual(pack.VoicePack.groupManager.achievementList[key].pakSoundPath, replaceWith);
+        }
+
+        [TestMethod]
+        public void FindAndReplaceNewStyleDynamicSounsPath()
+        {
+            pack.VoicePack.groupManager.achievementList[key] = new AchievementOptions()
+                ccccccccccccccccccccccccccccccccccccccccccccccccccc
+                    { sounds = new BasicAchievementSound[2] } };
+        }
     }
 }

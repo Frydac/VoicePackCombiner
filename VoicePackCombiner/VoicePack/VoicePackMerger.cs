@@ -137,7 +137,7 @@ namespace RecursionTracker.Plugins.VoicePackCombiner.VoicePack
         /// <param name="oldPAKReference">string to search for</param>
         /// <param name="newPAKReference">string to replace oldPAKReference with, pass null to search without changing</param>
         /// <returns>true if found (and optionally changed), false if not found</returns>
-        public static bool FindPAKreferenceInVoicePackAndChange(VoicePackExtended voicePack, string oldPAKReference, string newPAKReference)
+        public static bool FindPAKreferenceInVoicePackAndReplace(VoicePackExtended voicePack, string oldPAKReference, string newPAKReference=null)
         {
             var groupManager = voicePack.VoicePack.groupManager;
 
