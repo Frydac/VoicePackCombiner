@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C047F356-A412-4EC5-A7CB-09168BFE47B0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RecursionTracker.Plugins.VoicePackCombiner</RootNamespace>
+    <AssemblyName>VoicePackCombiner</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\VoicePackCombiner.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>VoicePackCombiner.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Voicepack\VoicePackExtended.cs" />
+    <Compile Include="GUI\DebugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\DebugForm.Designer.cs">
+      <DependentUpon>DebugForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs" />
+    <Compile Include="VoicePackCombiner.cs" />
+    <Compile Include="VoicePackCombiner.Designer.cs">
+      <DependentUpon>VoicePackCombiner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\VoicePackCombinerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\VoicePackCombinerForm.Designer.cs">
+      <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\VoicePackCombinerMenuItems.cs" />
+    <Compile Include="VoicePackCombinerPlugin.cs" />
+    <Compile Include="Voicepack\VoicePackComparer.cs" />
+    <Compile Include="Voicepack\VoicePackMerger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\DebugForm.resx">
+      <DependentUpon>DebugForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\VoicePackCombinerForm.resx">
+      <DependentUpon>VoicePackCombinerForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\VoicePackCombiner.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>VoicePackCombiner.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Notes.txt" />
+    <Content Include="Resources\077_AddFile.ico" />
+    <Content Include="Resources\077_AddFile_16x16_72.png" />
+    <Content Include="Resources\action_add_16xMD.png" />
+    <Content Include="Resources\action_Cancel_16xMD.png" />
+    <Content Include="Resources\AddControl_371.png" />
+    <Content Include="Resources\AddNodefromFile_354.png" />
+    <Content Include="Resources\save_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RTLibrary\RTLibrary.csproj">
+      <Project>{763292ba-5744-44e3-a571-c283b64fd244}</Project>
+      <Name>RTLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RTPluginPS2\RTPluginPS2.csproj">
+      <Project>{10afc347-a135-4cb8-8d2a-fca7faff7a56}</Project>
+      <Name>RTPluginPS2</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /Y $(TargetPath) $(SolutionDir)\Build</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

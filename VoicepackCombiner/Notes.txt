@@ -1,0 +1,75 @@
+﻿- Tests terug laten werken
+
+IsGlobal() gebruiken en functies proberen te testen die het gebruiken
+
+- split equals in sounds/componentinfo
+-	implement componentInfoEquals()
+- make sure my menu items dont disappear :) doesnt do it anymore.. dont know how this came to be
+- move equalcomponentinfo to voicepackcomparer and test (test exists but need to be rewritten)
+- move equalfilenames to voicepack comparer and rewrite tests. is EqualAchievementList
+- extract equals functions to VoicepackComparer
+    - implement equalComponentData
+    - implement xmldictionary length
+- add messagebox or something, when recombine (or after restart) cant find the voicepacks
+- create at least one test without pak problem for mergecomponentdata
+
+- bug: useCombinedVoicepack_Changed, _useCombinedVoicepackMenuItem.Checked can be called from the timer thread aswell, need synchronized access
+VoicepackCombinerForm I think . useCombinedVoicepack-_Changed
+https://msdn.microsoft.com/en-us/library/ms171728.aspx
+
+- the first voicepack loaded in recombine is still in the list, though it didnt load properly (I think), check that
+  - start with default would solve the problem I guess?
+  - remove duplication in add and recombine, starting with default would help, seems to different to really remove any duplication
+  - remove redundant if
+
+finish FindPAKReferenceInVoicepackAndChangeIntegrationTest
+create functionality to clean voicepacks of too much componentData
+test creating a new voicepak and then adding a image file and see how it is stored in the voicepack datastructure: pretty sure its groupManagerBackgroundImage
+implement find pak reference (to adjust to doubles in componentdata)
+implement fixdoubles
+move merge component data to voicepackmerger
+finish TestVoicepackMerger.MergeComponentInformation
+finish move of all merge functions to VoicepackMerger
+check if componentdata get created for combined pack with also xml based packs inside
+make old style voicepacks work when they are not in the right folder, walk through it trying to play a sound with eventsimulator mod
+
+Create a standard named settingsfile.
+
+create tool to remove excess datacomponent data
+
+remove restriction for old soundpacks to have to be in the recursion folder
+    
+create new testdata packs, and revisit those tests to make them more clear
+
+(start merge met default soundpack)
+
+
+merge info
+        /// TODO: fill in values properly
+        /// always pakfile, always CombinedVoicepackBackupFilename
+        /// ComponentInformation:
+        ///  name: Combination of: Name1, Name2, ...
+        ///  description:
+        ///    name: Name1
+        ///    description: description1
+        ///    ...
+        /// author: Combined effort from Name1, Name2, ...
+        /// SampleImage, backupSampleImage: ?? dunno yet, default I presume for now
+
+Merge() Catch Exception and return boolean, or not return anything and catch exception higher in the callstack
+
+Extract VoicepackCombiner
+
+merge in eigen klasse refactoren
+na merge bestand opslaan in backup plaats
+
+fix error where data is kept when new voicepack is created via main gui
+
+
+My plugin is dependant on PS2Plugin being loaded properly, maybe should build check?
+
+
+--------------
+Manual items:
+--------------
+It takes the sampleImage of the first voicePack added to the list, TODO: make option to choose sample Image, maybe rightclick context menu?
