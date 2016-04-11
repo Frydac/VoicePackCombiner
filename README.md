@@ -27,11 +27,9 @@ For each achievement, all the sounds for that achievement from each voicepack wi
 When an achievement is triggered, Recursion RTST will randomly play one of the grouped sounds for that achievment.
 
 When the combined voicepack is in use, it can be edited like a normal voicepack via the voicepack editor menu of the Recursion RTST client (Tools->Options->Audio->Configure). 
-Note that when you add or remove a voicepack, the combined voicepack will be recombined and any changes will be overwritten.
-If you which to alter anything, do that right before you publish/export the voicepack. Then newly exported voicepack can then again be used
-to combine with more voicepacks.
+Note that when you remove a voicepack from the list, the combined voicepack will be recreated from the source voice pack files, and any changes will be overwritten.
 
-The combined voicepack can be exported as a new single voicepack by clicking the "Export Combined VoicePack" button on the VoicePackCombiner window.
+The combined voicepack can be exported/published as a new single voicepack by clicking the "Export Combined VoicePack" button on the VoicePackCombiner window.
 
 Have fun!
 
