@@ -36,7 +36,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         /// user actions can cause the main program to reload from the file refered to by the current loaded voicepack.
         /// And as this class merges existing voicepacks from different files in memory, the combination also needs to be saved to a file.
         /// </summary>
-        readonly static string CombinedVoicepackBackupFilename = Path.Combine(Application.StartupPath, "VoicepackCombiner.CurrentCombinedVoicepack" + PlanetSide2.GlobalVariablesPS2.VOICEPACK_FILE_EXT);
+        readonly string CombinedVoicepackBackupFilename = Path.Combine(Application.StartupPath, "VoicepackCombiner.CurrentCombinedVoicepack" + PlanetSide2.GlobalVariablesPS2.VOICEPACK_FILE_EXT);
 
         /// <summary>
         /// This property switches between using the combined voicepack and the original voicepack loaded in the main program
@@ -112,7 +112,6 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
             if(Properties.VoicepackCombiner.Default.VoicepackFileList == null) return;
 
-            CombinedVoicepack = new VoicepackExtended();
             AddVoicepacks(Properties.VoicepackCombiner.Default.VoicepackFileList.Cast<string>().ToList());
         }
 
@@ -155,6 +154,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             }
 
             SaveVoicepackFilesToCombineToSettings();
+            CombinedVoicepack.ExportToFile(CombinedVoicepackBackupFilename);
         }
 
         /// <summary>
@@ -172,6 +172,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             RecombineVoicepackFilesToCombine();
 
             SaveVoicepackFilesToCombineToSettings();
+            CombinedVoicepack.ExportToFile(CombinedVoicepackBackupFilename);
         }
 
         /// <summary>

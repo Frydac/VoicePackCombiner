@@ -136,6 +136,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
             {
                 this.SetAsGlobal();
                 this.Voicepack.CreatePAKFile(filename);
+                this.GetFromGlobal(); //make sure the global friends are copied
             }
             globalBackup.SetAsGlobal();
         }
