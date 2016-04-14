@@ -6,8 +6,8 @@
     <ProjectGuid>{64E81573-A513-4EEA-A448-94743E0EC83C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RecursionTracker.Plugins.VoicePackCombiner.VoicePackCombinerTest</RootNamespace>
-    <AssemblyName>VoicePackCombinerTest</AssemblyName>
+    <RootNamespace>RecursionTracker.Plugins.VoicepackCombiner.VoicepackCombinerTest</RootNamespace>
+    <AssemblyName>VoicepackCombinerTest</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -63,24 +63,25 @@
     <Compile Include="..\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\TestVoicePackCombiner.cs">
-      <Link>TestVoicePackCombiner.cs</Link>
+    <Compile Include="..\TestVoicepackCombiner.cs">
+      <Link>TestVoicepackCombiner.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePackTestData.cs">
-      <Link>VoicePackTestData.cs</Link>
+    <Compile Include="..\VoicepackTestData.cs">
+      <Link>VoicepackTestData.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\TestVoicePackComparer.cs">
-      <Link>VoicePack\TestVoicePackComparer.cs</Link>
+    <Compile Include="..\Voicepack\TestVoicepackComparer.cs">
+      <Link>Voicepack\TestVoicepackComparer.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\TestVoicePackExtended.cs">
-      <Link>VoicePack\TestVoicePackExtended.cs</Link>
+    <Compile Include="..\Voicepack\TestVoicepackExtended.cs">
+      <Link>Voicepack\TestVoicepackExtended.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\TestVoicePackMerger.cs">
-      <Link>VoicePack\TestVoicePackMerger.cs</Link>
+    <Compile Include="..\Voicepack\TestVoicepackMerger.cs">
+      <Link>Voicepack\TestVoicepackMerger.cs</Link>
     </Compile>
-    <Compile Include="..\VoicePack\VoicePackSampleCreator.cs">
-      <Link>VoicePack\VoicePackSampleCreator.cs</Link>
+    <Compile Include="..\Voicepack\VoicepackSampleCreator.cs">
+      <Link>Voicepack\VoicepackSampleCreator.cs</Link>
     </Compile>
+    <Compile Include="Voicepack\TestVoicepackCleaner.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\RTLibrary\RTLibrary.csproj">
@@ -91,7 +92,7 @@
       <Project>{10afc347-a135-4cb8-8d2a-fca7faff7a56}</Project>
       <Name>RTPluginPS2</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\VoicePackCombiner\VoicepackCombiner.csproj">
+    <ProjectReference Include="..\..\VoicepackCombiner\VoicepackCombiner.csproj">
       <Project>{c047f356-a412-4ec5-a7cb-09168bfe47b0}</Project>
       <Name>VoicepackCombiner</Name>
     </ProjectReference>

@@ -148,7 +148,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
         /// </summary>
         public bool Merge(string voicePackFilename)
         {
-            VoicepackExtended other = new VoicepackExtended();
+            var other = new VoicepackExtended();
             if (other.LoadFromFile(voicePackFilename))
             {
                 this.Merge(other);
