@@ -101,7 +101,8 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         void LoadFromUserSettings()
         {
             LoadVoicepacksToCombineFromSettings();
-            UseCombinedVoicepack = Properties.VoicepackCombiner.Default.UseCombinedVoicepack;
+            //UseCombinedVoicepack = Properties.VoicepackCombiner.Default.UseCombinedVoicepack;
+            UseCombinedVoicepack = Properties.Settings.Default.UseCombinedVoicepack;
         }
 
         /// <summary>
@@ -110,9 +111,9 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         private void LoadVoicepacksToCombineFromSettings()
         {
             //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
-            if(Properties.VoicepackCombiner.Default.VoicepackFileList == null) return;
+            if(Properties.Settings.Default.VoicepackFileList == null) return;
 
-            AddVoicepacks(Properties.VoicepackCombiner.Default.VoicepackFileList.Cast<string>().ToList());
+            AddVoicepacks(Properties.Settings.Default.VoicepackFileList.Cast<string>().ToList());
         }
 
         /// <summary>
@@ -120,19 +121,19 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         /// </summary>
         void SaveVoicepackFilesToCombineToSettings()
         {
-            Properties.VoicepackCombiner.Default.VoicepackFileList = new StringCollection();
-            var voicePackSettings = Properties.VoicepackCombiner.Default.VoicepackFileList;
+            Properties.Settings.Default.VoicepackFileList = new StringCollection();
+            var voicePackSettings = Properties.Settings.Default.VoicepackFileList;
             foreach (var voicePackFile in VoicepacksFilesToCombine)
             {
                 voicePackSettings.Add(voicePackFile.FullName);
             }
-            Properties.VoicepackCombiner.Default.Save();
+            Properties.Settings.Default.Save();
         }
 
         private void SaveUseCombinedVoicepackToSettings()
         {
-            Properties.VoicepackCombiner.Default.UseCombinedVoicepack = _useCombinedVoicepack;
-            Properties.VoicepackCombiner.Default.Save();
+            Properties.Settings.Default.UseCombinedVoicepack = _useCombinedVoicepack;
+            Properties.Settings.Default.Save();
         }
 
         /// <summary>

@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RecursionTracker.Plugins.VoicePackCombiner.Properties {
+namespace RecursionTracker.Plugins.VoicepackCombiner.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class VoicePackCombiner : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static VoicePackCombiner defaultInstance = ((VoicePackCombiner)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new VoicePackCombiner())));
+        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
-        public static VoicePackCombiner Default {
+        public static Settings Default {
             get {
                 return defaultInstance;
             }
