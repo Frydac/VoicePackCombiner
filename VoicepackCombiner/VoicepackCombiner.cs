@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using RecursionTracker.Plugins.VoicepackCombiner.Properties;
 using RecursionTracker.Plugins.VoicepackCombiner.Properties.Annotations;
 using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
 
@@ -34,9 +35,9 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         /// <summary>
         /// Holds the filename to save the current combined voicepack to a backup file, this is needed because some
         /// user actions can cause the main program to reload from the file refered to by the current loaded voicepack.
-        /// And as this class merges existing voicepacks from different files in memory, the combination also needs to be saved to a file.
+        /// And as this class merges existing voicepacks from different files into memory, the combination also needs to be saved to a file.
         /// </summary>
-        readonly string CombinedVoicepackBackupFilename = Path.Combine(Application.StartupPath, "VoicepackCombiner.CurrentCombinedVoicepack" + PlanetSide2.GlobalVariablesPS2.VOICEPACK_FILE_EXT);
+        readonly string CombinedVoicepackBackupFilename = Path.Combine(Application.UserAppDataPath, "VoicepackCombiner.CurrentCombinedVoicepack" + PlanetSide2.GlobalVariablesPS2.VOICEPACK_FILE_EXT);
 
         /// <summary>
         /// This property switches between using the combined voicepack and the original voicepack loaded in the main program
@@ -90,50 +91,10 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         {
             CombinedVoicepack = new VoicepackExtended();
             CombinedVoicepack.InitializeToDefault();
+
             GlobalVoicepackBackup = new VoicepackExtended();
-            GlobalVoicepackBackup.InitializeToDefault();
+
             if(loadFromSettingFile) LoadFromUserSettings(); 
-        }
-
-        /// <summary>
-        /// Loads the last saved state from the user's settings file
-        /// </summary>
-        void LoadFromUserSettings()
-        {
-            LoadVoicepacksToCombineFromSettings();
-            //UseCombinedVoicepack = Properties.VoicepackCombiner.Default.UseCombinedVoicepack;
-            UseCombinedVoicepack = Properties.Settings.Default.UseCombinedVoicepack;
-        }
-
-        /// <summary>
-        /// Loads the last saved list of voicepacks to combine from the user settings file
-        /// </summary>
-        private void LoadVoicepacksToCombineFromSettings()
-        {
-            //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
-            if(Properties.Settings.Default.VoicepackFileList == null) return;
-
-            AddVoicepacks(Properties.Settings.Default.VoicepackFileList.Cast<string>().ToList());
-        }
-
-        /// <summary>
-        /// Save the current list of voicepacks to combine to the user settings file
-        /// </summary>
-        void SaveVoicepackFilesToCombineToSettings()
-        {
-            Properties.Settings.Default.VoicepackFileList = new StringCollection();
-            var voicePackSettings = Properties.Settings.Default.VoicepackFileList;
-            foreach (var voicePackFile in VoicepacksFilesToCombine)
-            {
-                voicePackSettings.Add(voicePackFile.FullName);
-            }
-            Properties.Settings.Default.Save();
-        }
-
-        private void SaveUseCombinedVoicepackToSettings()
-        {
-            Properties.Settings.Default.UseCombinedVoicepack = _useCombinedVoicepack;
-            Properties.Settings.Default.Save();
         }
 
         /// <summary>
@@ -197,7 +158,6 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
             }
         }
 
-
         /// <summary>
         /// Checks if the current loaded voicepack aka globalVoicepack is still the combined voicepack.
         /// The user may have loaded another voicepack using the main program load functionality.
@@ -211,6 +171,49 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
                 GlobalVoicepackBackup.GetFromGlobal();
             }
         }
+
+ #region Settings File Interactions
+        /// <summary>
+        /// Loads the last saved state from the user's settings file
+        /// </summary>
+        private void LoadFromUserSettings()
+        {
+            LoadVoicepacksToCombineFromSettings();
+            //UseCombinedVoicepack = Properties.VoicepackCombiner.Default.UseCombinedVoicepack;
+            UseCombinedVoicepack = Settings.Default.UseCombinedVoicepack;
+        }
+
+        /// <summary>
+        /// Loads the last saved list of voicepacks to combine from the user settings file
+        /// </summary>
+        private void LoadVoicepacksToCombineFromSettings()
+        {
+            //TODO: this was once an issue because I messed up the settings file creation, afaik this cant be null as it always has a default value?
+            if (Settings.Default.VoicepackFileList == null) return;
+
+            AddVoicepacks(Settings.Default.VoicepackFileList.Cast<string>().ToList());
+        }
+
+        /// <summary>
+        /// Save the current list of voicepacks to combine to the user settings file
+        /// </summary>
+        private void SaveVoicepackFilesToCombineToSettings()
+        {
+            Settings.Default.VoicepackFileList = new StringCollection();
+            var voicePackSettings = Settings.Default.VoicepackFileList;
+            foreach (var voicePackFile in VoicepacksFilesToCombine)
+            {
+                voicePackSettings.Add(voicePackFile.FullName);
+            }
+            Settings.Default.Save();
+        }
+
+        private void SaveUseCombinedVoicepackToSettings()
+        {
+            Settings.Default.UseCombinedVoicepack = _useCombinedVoicepack;
+            Settings.Default.Save();
+        }
+#endregion
 
 #region INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;
