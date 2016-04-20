@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,60 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
 {
     public class VoicepackCleaner
     {
+        /// <summary>
+        /// This function prepares voicepacks for merging, they sometimes use the same key to identify a certain resource and
+        /// use that key in a dictionary. This function will find those keys and change them so they can be merged properly.
+        /// It will use the current //HERE
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        public static List<string> ResolveComponentDataKeyClashes(VoicepackExtended lhs, VoicepackExtended rhs)
+        {
+            if (lhs?.Voicepack?.componentData == null || rhs?.Voicepack?.componentData == null)
+                return new List<string>();
+
+            var clashingKeys = new List<string>();
+
+            foreach (var lhsDataPair in lhs.Voicepack.componentData)
+            {
+                if (rhs.Voicepack.componentData.ContainsKey(lhsDataPair.Key))
+                {
+                    clashingKeys.Add(lhsDataPair.Key);
+                    //create new name
+                }
+            }
+
+            return clashingKeys;
+        }
+
+
+        /// <summary>
+        /// The main program had an error where componentdata from a previous voicepack was still present in a voicepack that does not
+        /// use it. This function gets rid of that unused data.
+        /// </summary>
+        public static List<string> RemoveUnusedComponentData(VoicepackExtended voicepack)
+        {
+            var keysNotReferenced = new List<string>();
+
+            if (voicepack?.Voicepack?.componentData == null) return keysNotReferenced;
+
+            foreach (var item in voicepack.Voicepack.componentData)
+            {
+                if (!FindPAKreferenceInVoicepackAndReplace(voicepack, item.Key))
+                {
+                    keysNotReferenced.Add(item.Key);
+                }
+            }
+
+            foreach (var keyNotReferenced in keysNotReferenced)
+            {
+                voicepack.Voicepack.componentData.Remove(keyNotReferenced);
+                Debug.WriteLine($"ComponentData removed with key: {keyNotReferenced}");
+            }
+
+            return keysNotReferenced;
+        }
+
         /// <summary>
         /// Finds the string that is used to reference componentData to the achievent or background image, and optionally changes it
         /// </summary>

@@ -9,7 +9,7 @@ using RecursionTracker.Plugins.VoicepackCombiner.Voicepack;
 namespace RecursionTracker.Plugins.VoicepackCombiner.VoicepackCombinerTest.Voicepack
 {
     /// <summary>
-    /// Create a sample VoicepackExtended to test with
+    /// Create a sample VoicepackExtended or parts of it to test with
     /// </summary>
     public static class VoicepackSampleCreator
     {
@@ -68,6 +68,41 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.VoicepackCombinerTest.Voice
                 name = "name",
                 sampleImage = "sampleImage"
             };
+        }
+
+        public static AchievementOptions CreateOneSoundAchievement(string pakSoundPath, string fileSoundPath)
+        {
+            var oneSoundAchievement = new AchievementOptions();
+            oneSoundAchievement.Initialize();
+            oneSoundAchievement.fileSoundPath = fileSoundPath;
+            oneSoundAchievement.pakSoundPath = pakSoundPath;
+            return oneSoundAchievement;
+        }
+
+        /// <summary>
+        /// expects pakAndSoundFiles as an array of dimension [x,2] with x the number of sounds to add
+        /// it expects this format: {{pakSoundfile, SoundFile}, {pakSoundFile,..}, ..}
+        /// </summary>
+        /// <param name="pakAndSoundFiles"></param>
+        /// <returns></returns>
+        public static AchievementOptions CreateDynamicSoundsAchievement(string[,] pakAndSoundFiles)
+        {
+            var nrOfSounds = pakAndSoundFiles.GetLength(0);
+
+            var dynamicSoundsAchievment = new AchievementOptions();
+            dynamicSoundsAchievment.Initialize();
+            var sounds = dynamicSoundsAchievment.dynamicSounds.sounds = new BasicAchievementSound[nrOfSounds];
+
+            for (int i = 0; i < nrOfSounds; i++)
+            {
+                sounds[i] = new BasicAchievementSound
+                {
+                    pakSoundFile = pakAndSoundFiles[i, 0],
+                    soundFile = pakAndSoundFiles[i, 1]
+                };
+            }
+
+            return dynamicSoundsAchievment;
         }
     }
 }
