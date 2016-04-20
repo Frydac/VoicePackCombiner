@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using RecursionTracker.Plugins.PlanetSide2;
@@ -202,6 +203,14 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
                 other.Voicepack.componentInformation);
         }
 #endregion
+
+        /// <summary>
+        /// Facade function, removes any stored data that is not referenced
+        /// </summary>
+        public List<string> RemoveUnusedComponentData()
+        {
+            return VoicepackCleaner.RemoveUnusedComponentData(this);
+        }
 
         /// <summary>
         /// Produces a formatted string representing the contents of this instance mainly used for debugging purposes.
