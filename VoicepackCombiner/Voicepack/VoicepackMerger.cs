@@ -11,6 +11,10 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
 
         public static void Merge(VoicepackExtended voicepack, VoicepackExtended otherVoicepack)
         {
+            VoicepackCleaner.RemoveUnusedComponentData(voicepack);
+            VoicepackCleaner.RemoveUnusedComponentData(otherVoicepack);
+            VoicepackCleaner.ResolveComponentDataKeyClashes(voicepack, otherVoicepack);
+
             MergeAchievementList(voicepack.Voicepack.groupManager.achievementList, otherVoicepack.Voicepack.groupManager.achievementList);
             MergeComponentData(voicepack.Voicepack.componentData, otherVoicepack.Voicepack.componentData);
             //TODO

@@ -7,32 +7,75 @@ using System.Threading.Tasks;
 
 namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
 {
-    public class VoicepackCleaner
+    public static class VoicepackCleaner
     {
         /// <summary>
         /// This function prepares voicepacks for merging, they sometimes use the same key to identify a certain resource and
-        /// use that key in a dictionary. This function will find those keys and change them so they can be merged properly.
-        /// It will use the current //HERE
+        /// use that key in a dictionary (which needs to be merged and cant contain duplicate keys).
+        /// This function will find those keys and change them.
         /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
+        /// <param name="lhs">left hand side, can be null</param>
+        /// <param name="rhs">right hand side, can be null</param>
         public static List<string> ResolveComponentDataKeyClashes(VoicepackExtended lhs, VoicepackExtended rhs)
         {
-            if (lhs?.Voicepack?.componentData == null || rhs?.Voicepack?.componentData == null)
-                return new List<string>();
-
             var clashingKeys = new List<string>();
 
-            foreach (var lhsDataPair in lhs.Voicepack.componentData)
+            if (lhs?.Voicepack?.componentData == null || rhs?.Voicepack?.componentData == null)
+                return clashingKeys;
+
+            clashingKeys = FindComponentDataKeyClashes(lhs.Voicepack.componentData, rhs.Voicepack.componentData);
+
+            if (!clashingKeys.Any()) return clashingKeys;
+
+            var lhsNewKeyPrefix = lhs.Voicepack.GetPAKFilePath() ?? lhs.Voicepack.GetFilePath() ?? Guid.NewGuid().ToString();
+            ChangeComponentDataKeys(lhs, clashingKeys, lhsNewKeyPrefix);
+
+            var rhsNewKeyPrefix = rhs.Voicepack.GetPAKFilePath() ?? rhs.Voicepack.GetFilePath() ?? Guid.NewGuid().ToString();
+            ChangeComponentDataKeys(rhs, clashingKeys, rhsNewKeyPrefix);
+
+            if(lhsNewKeyPrefix == rhsNewKeyPrefix)
+                throw new InvalidOperationException($"prefixes should differ, something went wrong, prefix = {lhsNewKeyPrefix}");
+
+            return clashingKeys;
+        }
+
+        /// <summary>
+        /// Returns a list of all keys present in both dictionaries
+        /// </summary>
+        /// <param name="lhs">left hand side</param>
+        /// <param name="rhs">right hand side</param>
+        /// <returns></returns>
+        public static List<string> FindComponentDataKeyClashes(XmlDictionary<string, ComponentData> lhs,
+            XmlDictionary<string, ComponentData> rhs)
+        {
+            var clashingKeys = new List<string>();
+
+            foreach (var lhsDataPair in lhs)
             {
-                if (rhs.Voicepack.componentData.ContainsKey(lhsDataPair.Key))
+                if (rhs.ContainsKey(lhsDataPair.Key))
                 {
                     clashingKeys.Add(lhsDataPair.Key);
-                    //create new name
                 }
             }
 
             return clashingKeys;
+        }
+
+        /// <summary>
+        /// Will change all the oldKeys, by prepending the prefix, in the componentData of pack
+        /// </summary>
+        /// <remarks>presumes all the oldKeys are in the componentData of pack</remarks>
+        public static void ChangeComponentDataKeys(VoicepackExtended pack, List<string> oldKeys, string prefix)
+        {
+            foreach (var oldKey in oldKeys)
+            {
+                var newKey = $"{prefix}:{oldKey}";
+                pack.Voicepack.componentData[newKey] = pack.Voicepack.componentData[oldKey];
+                pack.Voicepack.componentData.Remove(oldKey);
+                FindPAKreferenceInVoicepackAndReplace(pack, oldKey, newKey);
+
+                Debug.WriteLine($"ComponentData key changed, old key: {oldKey} -- new key: {newKey}");
+            }
         }
 
 
@@ -40,6 +83,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.Voicepack
         /// The main program had an error where componentdata from a previous voicepack was still present in a voicepack that does not
         /// use it. This function gets rid of that unused data.
         /// </summary>
+        /// <returns>List of removed keys</returns>
         public static List<string> RemoveUnusedComponentData(VoicepackExtended voicepack)
         {
             var keysNotReferenced = new List<string>();

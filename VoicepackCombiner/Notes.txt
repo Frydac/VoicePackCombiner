@@ -31,9 +31,25 @@ https://msdn.microsoft.com/en-us/library/ms171728.aspx
 - create functionality to clean voicepacks of too much componentData
 - create function to remove excess datacomponent data
 
-implement ResolveComponentDataKeyClashes
-add ResolveComponentDataKeyClashes to code
-add RemoveUnusedComponentData to code
+- Create a standard named settingsfile.
+
+- implement CreateNewComponentDataKeys
+
+- test FindComponentKeyClashes
+- implement ResolveComponentDataKeyClashes
+- add ResolveComponentDataKeyClashes to code
+- add RemoveUnusedComponentData to code
+
+fix drag and drop multiple files
+
+finish check/mail for RTPluginPS2.dll
+
+figure out how to handle the componentInformation
+ when starting a new combined voicepack: only then add something
+ when merging, add some info from every pack. problem is overwriting what the user might have changed
+
+make feature to be able to export all files in voicepack file
+   
 
 test creating a new voicepak and then adding a image file and see how it is stored in the voicepack datastructure: pretty sure its groupManagerBackgroundImage
 move merge component data to voicepackmerger
@@ -42,7 +58,6 @@ finish move of all merge functions to VoicepackMerger
 check if componentdata get created for combined pack with also xml based packs inside
 make old style voicepacks work when they are not in the right folder, walk through it trying to play a sound with eventsimulator mod
 
-Create a standard named settingsfile.
 
 
 remove restriction for old soundpacks to have to be in the recursion folder

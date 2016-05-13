@@ -89,12 +89,25 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
 
         public VoicepackCombiner(bool loadFromSettingFile = true)
         {
-            CombinedVoicepack = new VoicepackExtended();
-            CombinedVoicepack.InitializeToDefault();
+            InitializeCombinedVoicepack();
 
             GlobalVoicepackBackup = new VoicepackExtended();
 
             if(loadFromSettingFile) LoadFromUserSettings(); 
+        }
+
+        private void InitializeCombinedComponentInformation(VoicepackExtended voicepack)
+        {
+            voicepack.Voicepack.componentInformation.name = "Combined Voicepack";
+            voicepack.Voicepack.componentInformation.author = "";
+            voicepack.Voicepack.componentInformation.description = "";
+        }
+
+        private void InitializeCombinedVoicepack()
+        {
+            CombinedVoicepack = new VoicepackExtended();
+            CombinedVoicepack.InitializeToDefault();
+            InitializeCombinedComponentInformation(CombinedVoicepack);
         }
 
         /// <summary>
@@ -105,8 +118,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         {
             if (!VoicepacksFilesToCombine.Any())
             {
-                CombinedVoicepack = new VoicepackExtended();
-                CombinedVoicepack.InitializeToDefault();
+                InitializeCombinedVoicepack();
             }
 
             foreach (var filename in filenames)
@@ -142,8 +154,7 @@ namespace RecursionTracker.Plugins.VoicepackCombiner
         /// </summary>
         private void RecombineVoicepackFilesToCombine()
         {
-            CombinedVoicepack = new VoicepackExtended();
-            CombinedVoicepack.InitializeToDefault();
+            InitializeCombinedVoicepack();
 
             var invalidFilesToRemove = new List<FileInfo>();
             foreach (var voicePackFile in VoicepacksFilesToCombine)

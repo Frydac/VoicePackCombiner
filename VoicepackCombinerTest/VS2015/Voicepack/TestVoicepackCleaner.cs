@@ -40,6 +40,29 @@ namespace RecursionTracker.Plugins.VoicepackCombiner.VoicepackCombinerTest.Voice
             Assert.AreEqual(pakBackgroundImageKey, result[0]);
         }
 
+        [TestMethod]
+        public void FindComponentKeyClashes()
+        {
+            // seems so trivial
+        }
+
+        [TestMethod]
+        public void ChangeComponentDataKeysTest()
+        {
+            List<string> oldKeys = new List<string>();
+            oldKeys.Add("oldKey");
+
+            VoicepackExtended pack = new VoicepackExtended();
+            pack.InitializeToDefault();
+            pack.Voicepack.componentData.Add("oldKey", new ComponentData());
+
+            VoicepackCleaner.ChangeComponentDataKeys(pack, oldKeys, "prefix");
+
+            Assert.IsTrue(pack.Voicepack.componentData.ContainsKey("prefix:oldKey"));
+            Assert.IsFalse(pack.Voicepack.componentData.ContainsKey("oldKey"));
+        }
+
+
     }
 
     [TestClass]
